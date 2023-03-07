@@ -66,6 +66,12 @@
           Workspaces {{ this.organization.metadata?.name }}
         </p>
 
+        <div v-for="(w, index) in workspaces.items" :key="index">
+          <p class="pl-4 my-2 text-xs font-semibold mb-4 text-gray-400">
+          {{ this.w.metadata?.name }}
+        </p>
+        </div>
+
         <p class="pl-4 my-2 text-xs font-semibold mb-4 text-gray-400">
           Examples
         </p>
@@ -253,7 +259,7 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import { useSidebar } from "../hooks/useSidebar";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default defineComponent({
   name: "Sidebar",
@@ -262,6 +268,7 @@ export default defineComponent({
     ...mapGetters("organizationModule", {
       organizations: "organizations",
       organization: "organization",
+      workspaces: "workspaces",
       error: "error",
       loading: "loading",
     }),
@@ -278,5 +285,11 @@ export default defineComponent({
     ),
     };
   },
+
+  methods:{
+    ...mapActions("organizationModule", [
+      "getWorkspacesAction",
+    ]),
+  }
 });
 </script>

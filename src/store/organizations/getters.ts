@@ -7,6 +7,9 @@ const getters = {
   organization: (state: OrganizationStateType) => {
     return state.organization;
   },
+  workspaces: (state: OrganizationStateType) => {
+    return state.workspaces;
+  },
   loading: (state: OrganizationStateType) => state.loading,
   error: (state: OrganizationStateType) => state.error,
 };

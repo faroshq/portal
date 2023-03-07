@@ -5,7 +5,7 @@
     <Banner />
     <Notification />
 
-    <OrganizationManager />
+    <OrganizationManager  />
 
     <div class="mt-4">
       <div class="flex flex-wrap -mx-6">
@@ -306,6 +306,7 @@ export default defineComponent({
     ...mapActions("organizationModule", [
       "getOrganizationsAction",
       "useOrganizationActions",
+      "getWorkspacesAction",
     ]),
     organizationCount() {
       return this.organizations.items.length;
@@ -317,7 +318,12 @@ export default defineComponent({
       //this.deleteIntentionsAction();
     },
     setDefaultOrganization(org: V1alpha1Organization) {
-      this.useOrganizationActions(org);
+      this.useOrganizationActions(org).then(() => {
+        this.getWorkspacesAction(org);
+      }).catch((err) => {
+        console.log(err);
+      });
+
     },
 
   }

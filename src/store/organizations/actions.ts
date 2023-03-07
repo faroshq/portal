@@ -4,6 +4,7 @@ import {
   createOrganization,
   getOrganizations,
   deleteOrganization,
+  getWorkspaces,
 } from "@/services/organizationsService";
 
 import { V1alpha1Organization } from "../../api";
@@ -38,4 +39,13 @@ export function getOrganizationsAction({ commit }: { commit: Commit}) {
 
 export function useOrganizationActions({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
   commit(types.SET_ORGANIZATION, organization);
+}
+
+export function getWorkspacesAction({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
+  commit(types.LOADING_ORGANIZATION, true);
+
+  return getWorkspaces(organization.metadata?.name as string).
+    then((value) => commit(types.SET_WORKSPACES, value))
+    .catch((e) =>  commit(types.ERROR_ORGANIZATION, e.body))
+    .finally(() => commit(types.LOADING_ORGANIZATION, false));
 }

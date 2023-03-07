@@ -12,3 +12,7 @@ export async function getOrganizations() {
 export async function deleteOrganization(name: string) {
   return client.deleteOrganization(name)
 }
+
+export async function getWorkspaces(org: string) {
+  return client.listWorkspaces(org)
+}
