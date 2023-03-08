@@ -1,4 +1,4 @@
-import { V1alpha1Workspace, V1alpha1WorkspaceList } from "../../api";
+import { V1alpha1Workspace, V1alpha1WorkspaceList } from "@/api/faros";
 import * as types from "./types";
 
 

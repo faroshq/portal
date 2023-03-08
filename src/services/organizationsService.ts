@@ -1,18 +1,18 @@
-import * as faros from "../api";
-import client from './client'
+import * as faros from "@/api/faros";
+import * as farosClient from './clientFaros'
 
 export async function createOrganization(org: faros.V1alpha1Organization) {
-    return client.createOrganization(org)
+    return farosClient.default.createOrganization(org)
 }
 
 export async function getOrganizations() {
-    return client.listOrganizations()
+    return farosClient.default.listOrganizations()
 }
 
 export async function deleteOrganization(name: string) {
-  return client.deleteOrganization(name)
+  return farosClient.default.deleteOrganization(name)
 }
 
 export async function getWorkspaces(org: string) {
-  return client.listWorkspaces(org)
+  return farosClient.default.listWorkspaces(org)
 }

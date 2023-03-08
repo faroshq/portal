@@ -1,6 +1,6 @@
 import * as types from "./types";
 import { WorkspaceStateType } from "@/store/workspaces/state";
-import { V1alpha1WorkspaceList, V1alpha1Workspace } from "../../api";
+import { V1alpha1WorkspaceList, V1alpha1Workspace } from "@/api/faros";
 
 // Workspaces mutators are reliant on the organization name in the reference
 // fields of the workspace. We should always operate native objects, not

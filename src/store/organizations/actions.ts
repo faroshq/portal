@@ -7,7 +7,7 @@ import {
   getWorkspaces,
 } from "@/services/organizationsService";
 
-import { V1alpha1Organization } from "../../api";
+import { V1alpha1Organization } from "@/api/faros";
 
 export function addOrganizationAction({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
   commit(types.LOADING_ORGANIZATION, true);

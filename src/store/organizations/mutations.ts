@@ -1,6 +1,6 @@
 import * as types from "./types";
 import { OrganizationStateType } from "@/store/organizations/state";
-import { V1alpha1Organization, V1alpha1OrganizationList } from "../../api";
+import { V1alpha1Organization, V1alpha1OrganizationList } from "@/api/faros";
 
 const mutations = {
   [types.LOADING_ORGANIZATION](state: OrganizationStateType, toggle: boolean) {

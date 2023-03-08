@@ -1,5 +1,5 @@
-import client from './client'
+import * as farosClient from './clientFaros'
 
 export async function registerUser() {
-    return client.register()
+    return farosClient.default.register()
 }

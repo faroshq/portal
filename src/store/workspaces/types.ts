@@ -1,4 +1,4 @@
-import { V1alpha1WorkspaceList } from "../../api";
+import { V1alpha1WorkspaceList } from "@/api/faros";
 
 
 // OrganizationV1alpha1WorkspaceList is a map of organization names to workspace lists

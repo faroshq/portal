@@ -104,7 +104,7 @@
 
 <script lang="ts">
 
-import { V1alpha1Organization } from "@/api";
+import { V1alpha1Organization } from "@/api/faros";
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 

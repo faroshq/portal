@@ -111,7 +111,7 @@
 
 import { defineComponent, } from "vue";
 import { mapGetters, mapActions } from "vuex";
-import { V1alpha1Organization } from "@/api";
+import { V1alpha1Organization } from "@/api/faros";
 
 export default defineComponent({
   name: "CreateOrganization",

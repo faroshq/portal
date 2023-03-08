@@ -10,6 +10,7 @@ import Chart from "../views/ChartView.vue";
 import Card from "../views/CardView.vue";
 import Blank from "../views/BlankView.vue";
 import NotFound from "../views/NotFound.vue";
+import Workspace from "../views/Workspace.vue";
 import idsrvAuth from '../oauthclient/idsrvAuth';
 
 const routes: Array<RouteRecordRaw> = [
@@ -31,6 +32,14 @@ const routes: Array<RouteRecordRaw> = [
     path: "/logout",
     name: "Logout",
     component: Logout,
+    meta: {
+      authName: idsrvAuth.authName
+    },
+  },
+  {
+    path: "/organizations/:organization/workspaces/:workspace",
+    name: "Workspace",
+    component: Workspace,
     meta: {
       authName: idsrvAuth.authName
     },

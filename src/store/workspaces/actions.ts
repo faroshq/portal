@@ -6,7 +6,7 @@ import {
   getWorkspaces,
 } from "@/services/workspacesService";
 
-import { V1alpha1OrganizationList, V1alpha1Workspace } from "../../api";
+import { V1alpha1OrganizationList, V1alpha1Workspace } from "@/api/faros";
 
 export function addWorkspaceAction({ commit }: { commit: Commit}, workspace: V1alpha1Workspace) {
   commit(types.LOADING_WORKSPACE, true);
