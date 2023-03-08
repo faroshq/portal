@@ -1,12 +1,8 @@
 import * as types from "./types";
 import { OrganizationStateType } from "@/store/organizations/state";
-import { V1alpha1Organization, V1alpha1OrganizationList, V1alpha1WorkspaceList } from "../../api";
+import { V1alpha1Organization, V1alpha1OrganizationList } from "../../api";
 
 const mutations = {
-  [types.GET_ORGANIZATIONS](state: OrganizationStateType, organizations: V1alpha1OrganizationList) {
-    state.organizations = organizations;
-  },
-
   [types.LOADING_ORGANIZATION](state: OrganizationStateType, toggle: boolean) {
     state.loading = toggle;
   },
@@ -29,12 +25,12 @@ const mutations = {
     state.error = error;
   },
 
-  [types.SET_ORGANIZATION](state: OrganizationStateType, organization: V1alpha1Organization) {
-    state.organization = organization;
+  [types.SET_DEFAULT_ORGANIZATION](state: OrganizationStateType, organization: V1alpha1Organization) {
+    state.defaultOrganization = organization;
   },
 
-  [types.SET_WORKSPACES](state: OrganizationStateType, workspaces: V1alpha1WorkspaceList) {
-    state.workspaces = workspaces;
+  [types.SET_ALL_ORGANIZATIONS](state: OrganizationStateType, organizations: V1alpha1OrganizationList) {
+    state.organizations = organizations;
   }
 };
 

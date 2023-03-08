@@ -5,7 +5,7 @@
     <Banner />
     <Notification />
 
-    <OrganizationManager  />
+    <CreateOrganization  />
 
     <div class="mt-4">
       <div class="flex flex-wrap -mx-6">
@@ -54,7 +54,7 @@
           </div>
         </div>
 
-      <!--  <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+        <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
           <div
             class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
           >
@@ -81,12 +81,12 @@
             </div>
 
             <div class="mx-5">
-              <h4 class="text-2xl font-semibold text-gray-700">200,521</h4>
-              <div class="text-gray-500">Total Orders</div>
+              <h4 class="text-2xl font-semibold text-gray-700"> {{ this.totalWorkspacesCount() }}</h4>
+              <div class="text-gray-500">Total workspaces</div>
             </div>
           </div>
         </div>
-
+        <!--
         <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
           <div
             class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
@@ -172,8 +172,25 @@
                 >
                   Status
                 </th>
-                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
-              </tr>
+
+                <th
+                  class="
+                   px-6
+                   py-3
+                   text-xs
+                   font-medium
+                   leading-4
+                   tracking-wider
+                   text-left text-gray-500
+                   uppercase
+                   border-b border-gray-200
+                   bg-gray-50
+                  "
+                  >
+                    Workspace count
+                  </th>
+                  <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
+                </tr>
             </thead>
 
             <tbody class="bg-white">
@@ -206,6 +223,25 @@
                       rounded-full
                     "
                     >{{ u.status }}</span
+                  >
+                </td>
+
+
+                <td
+                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap"
+                >
+                  <span
+                    class="
+                      inline-flex
+                      px-2
+                      text-xs
+                      font-semibold
+                      leading-5
+                      text-green-800
+                      bg-green-100
+                      rounded-full
+                    "
+                    >{{ this.getWorkspaceCount(u) }}</span
                   >
                 </td>
 
@@ -243,11 +279,14 @@
                       <delete-organization
                         :organization="u"
                       />
+                      <create-workspace
+                        :organization="u"
+                      />
                       <button
                         class="mx-2 px-2 rounded-md"
                         @click="this.setDefaultOrganization(u)"
                       >
-                      <div v-if="this.organization != null && this.organization.metadata?.name === u.metadata?.name" class="i-heroicons-star-solid"></div>
+                      <div v-if="this.defaultOrganization != null && this.defaultOrganization.metadata?.name === u.metadata?.name" class="i-heroicons-star-solid"></div>
                       <div v-else class="i-heroicons-star"></div>
                       </button>
 
@@ -270,9 +309,9 @@ import { mapGetters, mapActions } from "vuex";
 import Banner from "../partials/Banner.vue";
 import Breadcrumb from "../partials/Breadcrumb.vue";
 import Notification from "../partials/Notification.vue";
-import OrganizationManager from "../partials/OrganizationManager.vue";
+import CreateOrganization from "../partials/orgs/CreateOrganization.vue";
 import DeleteOrganization from "../partials/orgs/DeleteOrganization.vue";
-
+import CreateWorkspace from "../partials/orgs/CreateWorkspace.vue";
 
 export default defineComponent({
   name: "Dashboard",
@@ -280,12 +319,16 @@ export default defineComponent({
     Banner,
     Breadcrumb,
     Notification,
-    OrganizationManager,
+    CreateOrganization,
     DeleteOrganization,
+    CreateWorkspace,
   },
 
   mounted() {
-    this.getOrganizationsAction();
+    this.getOrganizationsAction().
+    then(() => {
+      this.getOrganizationListWorkspaces(this.organizations);
+    })
   },
   data: () => ({
     showDeleteModal: false as boolean,
@@ -296,7 +339,13 @@ export default defineComponent({
   computed: {
     ...mapGetters("organizationModule", {
         organizations: "organizations",
-        organization: "organization",
+        defaultOrganization: "defaultOrganization",
+        error: "error",
+        loading: "loading",
+    }),
+    ...mapGetters("workspaceModule", {
+        workspaces: "workspaces",
+        defaultWorkspace: "defaultWorkspace",
         error: "error",
         loading: "loading",
     }),
@@ -304,12 +353,30 @@ export default defineComponent({
 
   methods: {
     ...mapActions("organizationModule", [
+      "addOrganizationAction",
       "getOrganizationsAction",
       "useOrganizationActions",
-      "getWorkspacesAction",
+    ]),
+    ...mapActions("workspaceModule", [
+      "getOrganizationListWorkspaces",
     ]),
     organizationCount() {
       return this.organizations.items.length;
+    },
+    totalWorkspacesCount(){
+      let count = 0;
+      for (const orgname of this.workspaces.keys()) {
+          count += this.workspaces.get(orgname)?.items.length;
+      }
+      return count;
+    },
+    getWorkspaceCount(org: V1alpha1Organization) {
+      for (const orgname of this.workspaces.keys()) {
+        if (orgname === org.metadata?.name) {
+          return this.workspaces.get(orgname)?.items.length;
+        }
+      }
+      return 0;
     },
     deleteIntention(org: V1alpha1Organization) {
       console.log("delete", org.metadata?.name)
@@ -319,11 +386,10 @@ export default defineComponent({
     },
     setDefaultOrganization(org: V1alpha1Organization) {
       this.useOrganizationActions(org).then(() => {
-        this.getWorkspacesAction(org);
+        // TODO: get workspaces
       }).catch((err) => {
         console.log(err);
       });
-
     },
 
   }

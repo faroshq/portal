@@ -1,12 +1,13 @@
 <template>
-<div class="inline px-6 py-2 mt-3">
+  <div>
+      <button
+        class="mx-2 px-2 rounded-md"
+        @click="this.open = true"
+      >
 
-    <button
-      @click="this.open = true"
-      class="px-6 py-2 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
-    >
-      Create organization
-    </button>
+      <div class="i-heroicons-plus-circle"></div>
+
+     </button>
 
     <div
       :class="`modal ${
@@ -42,7 +43,7 @@
         <div class="px-6 py-4 text-left modal-content">
           <!--Title-->
           <div class="flex items-center justify-between pb-3">
-            <p class="text-2xl font-bold">Organizations</p>
+            <p class="text-2xl font-bold">Create a workspace</p>
             <div class="z-50 cursor-pointer modal-close" @click="this.open = false">
               <svg
                 class="text-black fill-current"
@@ -57,26 +58,36 @@
               </svg>
             </div>
           </div>
+        </div>
 
           <!--Body-->
           <p>
-            Organizations allows you to manage your teams and projects. You can create
-            multiple workspaces/virtual cluster for your teams inside an organization.
+           Create a new workspace in the organization
           </p>
 
           <form
-            :obj="this.organizationForm"
+            :obj="this.workspaceForm"
             >
               <label class="text-xs">Name</label>
 
               <div class="relative mt-2 rounded-md shadow-sm">
                 <input
                   type="text"
-                  v-model="this.organizationForm.name"
+                  v-model="this.workspaceForm.name"
                   class="w-full px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
-                />
+              />
+              </div>
 
-            </div>
+              <label class="text-xs">Description</label>
+
+              <div class="relative mt-2 rounded-md shadow-sm">
+                <input
+                    type="text"
+                    v-model="this.workspaceForm.description"
+                    class="w-full px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                />
+              </div>
+
           </form>
 
             <div>
@@ -95,7 +106,7 @@
               Close
             </button>
             <button
-             @click="this.onSubmitOrganization"
+             @click="this.onSubmitWorkspace"
               class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
             >
               Create
@@ -103,66 +114,79 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
 
-import { defineComponent, } from "vue";
+import { V1alpha1Organization, V1alpha1Workspace } from "@/api";
+import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
-import { V1alpha1Organization } from "../api";
-import Breadcrumb from "./Breadcrumb.vue";
 
 export default defineComponent({
-  name: "OrganizationManager",
-  components: {
-    Breadcrumb,
+  name: "CreateWorkspace",
+
+  props: {
+    organization: {
+      type: V1alpha1Organization,
+      required: true,
+    },
   },
 
-  data () {
+  data() {
     return {
       open: false,
-      organizationForm:  {
+      workspaceForm:  {
         name: "",
+        description: "",
       },
-    }
+    };
   },
 
   computed: {
-    ...mapGetters("organizationModule", {
-      organizations: "organizations",
-      organization: "organization",
+    ...mapGetters("workspaceModule", {
+      workspaces: "workspaces",
+      defaultWorkspace: "defaultWorkspace",
       error: "error",
       loading: "loading",
     }),
+    currentOrganizationName() {
+      return this.organization?.metadata?.name;
+    },
   },
 
   methods: {
-    ...mapActions("organizationModule", [
-      "addOrganizationAction",
+    ...mapActions("workspaceModule", [
+      "addWorkspaceAction",
     ]),
     ...mapActions("notificationModule", [
       "setNotification",
     ]),
-
-    onSubmitOrganization() {
-      let org : V1alpha1Organization =  {
+    onSubmitWorkspace() {
+      let workspace : V1alpha1Workspace =  {
         metadata: {
-          name: this.organizationForm.name,
+          name: this.workspaceForm.name,
+        },
+        spec: {
+          description: this.workspaceForm.description,
+          organizationRef: {
+            name: this.currentOrganizationName,
+          },
         },
       };
 
-      this.addOrganizationAction(org).then(() => {
+      this.addWorkspaceAction(workspace).then(() => {
         if (this.error == "") {
-          this.setNotification("Organization "+org.metadata?.name+" created successfully")
+          this.setNotification("Workspace "+workspace.metadata?.name+" in "+workspace.spec?.organizationRef?.name+" created successfully")
           this.open = false;
-          this.organizationForm.name = "";
+          this.workspaceForm.name = "";
+          this.workspaceForm.description = "";
         } else {
           console.log(this.error);
         }
       })
     },
+
   },
 
 })
