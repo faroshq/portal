@@ -1,6 +1,6 @@
 {
-  "name": "dashboard-vue",
-  "version": "1.2.0",
+  "name": "dashboard-faros",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,7 +8,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.18.1",
     "@types/node": "^18.14.4",
     "apexcharts": "^3.37.1",
     "autoprefixer": "^10",
@@ -16,6 +15,7 @@
     "core-js": "^3.8.3",
     "https": "^1.0.0",
     "https-browserify": "^1.0.0",
+    "kubernetes-client-typescript-fetch": "^1.26.2-3",
     "oidc-client": "^1.11.5",
     "openapi": "^1.0.1",
     "pinia": "^2.0.32",
@@ -23,6 +23,7 @@
     "postcss": "^8",
     "tailwindcss": "^3",
     "tailwindcss-plugin-icons": "^2.1.1",
+    "underscore": "^1.13.6",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
@@ -30,6 +31,7 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@types/underscore": "^1.11.4",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",

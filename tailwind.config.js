@@ -1,5 +1,5 @@
 const { Icons } = require('tailwindcss-plugin-icons')
-
+const fs = require('fs')
 /**
  * @type {import('tailwindcss-plugin-icons').Options}
  */

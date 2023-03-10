@@ -2,12 +2,13 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
+    "jsxImportSource": "solid-js",
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
@@ -37,5 +38,5 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }

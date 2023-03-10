@@ -10,7 +10,7 @@ import Chart from "../views/ChartView.vue";
 import Card from "../views/CardView.vue";
 import Blank from "../views/BlankView.vue";
 import NotFound from "../views/NotFound.vue";
-import Workspace from "../views/Workspace.vue";
+import WorkspaceView from "../views/WorkspaceView.vue";
 import idsrvAuth from '../oauthclient/idsrvAuth';
 
 const routes: Array<RouteRecordRaw> = [
@@ -38,8 +38,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/organizations/:organization/workspaces/:workspace",
-    name: "Workspace",
-    component: Workspace,
+    name: "WorkspaceView",
+    component: WorkspaceView,
     meta: {
       authName: idsrvAuth.authName
     },
