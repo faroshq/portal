@@ -14,11 +14,12 @@ generate-faros:
 
 
 .PHONY: generate-kcp
-generate-kcp:
+generate-k8s:
 	@docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
-    -i /local/kcp-swagger.json \
+    -i /local/k8s-swagger.json \
     -g typescript \
-    -o /local/src/api/kcp
+	--skip-validate-spec \
+    -o /local/src/api/k8s
 
 generate-fix-perm:
 	sudo chown -R $(shell id -u):$(shell id -g) ./src/api/

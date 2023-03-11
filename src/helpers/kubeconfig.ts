@@ -1,5 +1,4 @@
 import { V1alpha1Workspace } from "@/api/faros";
-import * as k8s from 'kubernetes-client-typescript-fetch';
 import * as k8sfaros from "@/api/k8s/config";
 import idsrvAuth from '../oauthclient/idsrvAuth';
 

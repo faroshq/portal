@@ -1,6 +1,6 @@
 <template>
   <!-- Breadcrumb -->
-  <Breadcrumb breadcrumb="Blank" />
+  <Breadcrumb breadcrumb="TODO" />
 
   <!-- Page Content -->
   <kube-config :workspace="this.getWorkspace()" />
@@ -17,6 +17,8 @@ import KubeConfig from '../partials/kubeconfig/KubeConfig.vue'
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 
+import { K8SDynamicClient } from "@/servicek8s/clientK8S";
+
 export default defineComponent({
   name: "WorkspaceView",
 
@@ -25,6 +27,9 @@ export default defineComponent({
     KubeConfig
   },
 
+  mounted() {
+    this.returnStuff()
+  },
 
   computed: {
     ...mapGetters("workspaceModule", {
@@ -52,6 +57,13 @@ export default defineComponent({
         }
       }
     },
+    returnStuff(){
+      console.log(this.getWorkspace().status?.workspaceURL)
+      const client = new K8SDynamicClient(this.getWorkspace().status?.workspaceURL)
+      client.getNamespaces().then((res) => {
+        console.log(res)
+      })
+    }
   }
 })
 
