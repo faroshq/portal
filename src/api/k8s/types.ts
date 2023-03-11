@@ -1,4 +1,4 @@
-import { V1ListMeta, V1ObjectMeta } from 'kubernetes-client-typescript-fetch';
+import { V1ListMeta, V1ObjectMeta } from "@/api/k8s/";
 
 export interface KubernetesObject {
     apiVersion?: string;

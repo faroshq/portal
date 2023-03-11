@@ -17,7 +17,7 @@ import KubeConfig from '../partials/kubeconfig/KubeConfig.vue'
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 
-import { K8SDynamicClient } from "@/servicek8s/clientK8S";
+import { KubernetesObjectApi } from "@/servicek8s/clientK8S";
 
 export default defineComponent({
   name: "WorkspaceView",
@@ -59,10 +59,8 @@ export default defineComponent({
     },
     returnStuff(){
       console.log(this.getWorkspace().status?.workspaceURL)
-      const client = new K8SDynamicClient(this.getWorkspace().status?.workspaceURL)
-      client.getNamespaces().then((res) => {
-        console.log(res)
-      })
+      const client = new KubernetesObjectApi(this.getWorkspace().status?.workspaceURL)
+      client.get({})
     }
   }
 })
