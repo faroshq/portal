@@ -27,6 +27,7 @@ const mutations = {
 
   [types.SET_DEFAULT_ORGANIZATION](state: OrganizationStateType, organization: V1alpha1Organization) {
     state.defaultOrganization = organization;
+    localStorage.setItem('defaultOrganization', organization.metadata?.name as string);
   },
 
   [types.SET_ALL_ORGANIZATIONS](state: OrganizationStateType, organizations: V1alpha1OrganizationList) {

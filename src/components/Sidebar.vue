@@ -290,19 +290,19 @@ import { useSidebar } from "../hooks/useSidebar";
 import { mapGetters, mapActions } from "vuex";
 
 export default defineComponent({
-  name: "Sidebar",
+  name: "SidebarMenu",
 
   computed: {
     ...mapGetters("organizationModule", {
       organizations: "organizations",
       defaultOrganization: "defaultOrganization",
       error: "error",
-      loading: "loading",
+      organizationsLoading: "loading",
     }),
     ...mapGetters("workspaceModule", {
       workspaces: "workspaces",
       error: "error",
-      loading: "loading",
+      workspacesLoading: "loading",
     }),
   },
 
@@ -320,15 +320,14 @@ export default defineComponent({
 
   methods:{
     getDefaultOrganizationWorkspaces(){
-      if (this.defaultOrganization && this.defaultOrganization.metadata?.name) {
-        if (this.workspaces.get(this.defaultOrganization.metadata?.name) !== undefined) {
-          console.log(this.workspaces.get(this.defaultOrganization.metadata?.name).items)
-          return this.workspaces.get(this.defaultOrganization.metadata?.name).items
+        if (this.defaultOrganization && this.defaultOrganization.metadata?.name) {
+          if (this.workspaces.get(this.defaultOrganization.metadata?.name) !== undefined) {
+            console.log(this.workspaces.get(this.defaultOrganization.metadata?.name).items)
+            return this.workspaces.get(this.defaultOrganization.metadata?.name).items
+          }
         }
+        return []
       }
-      return []
-    }
-
   }
 });
 </script>

@@ -8,8 +8,6 @@
   APIExports:
 
 
-
-
 </template>
 <script lang="ts">
 import Breadcrumb from '../partials/Breadcrumb.vue'
@@ -27,17 +25,18 @@ export default defineComponent({
     KubeConfig
   },
 
-  mounted() {
-    this.returnStuff()
-  },
-
   computed: {
     ...mapGetters("workspaceModule", {
       workspaces: "workspaces",
       error: "error",
-      loading: "loading",
+      workspacesloading: "loading",
     }),
-
+   ...mapGetters("organizationModule", {
+        organizations: "organizations",
+        defaultOrganization: "defaultOrganization",
+        error: "error",
+        organizationsloading: "loading",
+    }),
     selectedWorkspaceName() {
       return this.$route.params.workspace
     },
@@ -46,16 +45,17 @@ export default defineComponent({
     },
   },
   methods: {
-    ...mapActions("workspaceModule", [
-      "getWorkspacesAction",
-    ]),
     getWorkspace(){
-      let workspaces = this.workspaces.get(this.selectedOrganizationName)
-      for (let workspace of workspaces.items) {
-        if (workspace.metadata?.name == this.selectedWorkspaceName) {
-          return workspace
+      if (!this.workspacesloading) {
+        let workspaces = this.workspaces.get(this.selectedOrganizationName)
+        if (workspaces != undefined){
+          for (let workspace of workspaces.items) {
+            if (workspace.metadata?.name == this.selectedWorkspaceName) {
+              return workspace
+            }
+          }
         }
-      }
+     }
     },
     returnStuff(){
       console.log(this.getWorkspace().status?.workspaceURL)
