@@ -11,10 +11,19 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: 'App',
 
+  // This is mostly to load localstore into vuex. Actions and mutators should
+  // be used to change the state of the store and localstore for refreshes.
   mounted() {
     this.getOrganizationsAction().
     then(() => {
       this.getOrganizationListWorkspaces(this.organizations);
+      const defaultOrganization = localStorage.getItem('defaultOrganization');
+      for (let organization of this.organizations.items) {
+        if (organization.metadata?.name == defaultOrganization) {
+          this.useOrganizationActions(organization);
+          return;
+        }
+      }
     })
   },
   computed: {

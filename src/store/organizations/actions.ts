@@ -4,7 +4,6 @@ import {
   createOrganization,
   getOrganizations,
   deleteOrganization,
-  getWorkspaces,
 } from "@/services/organizationsService";
 
 import { V1alpha1Organization } from "@/api/faros";

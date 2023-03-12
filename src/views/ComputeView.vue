@@ -2,6 +2,8 @@
   <!-- Breadcrumb -->
   <Breadcrumb breadcrumb="TODO" />
 
+  Compute!
+
   <!-- Page Content -->
   <kube-config :workspace="this.getWorkspace()" />
 
@@ -18,7 +20,7 @@ import { mapGetters, mapActions } from "vuex";
 import { KubernetesObjectApi } from "@/services/clientK8S";
 
 export default defineComponent({
-  name: "WorkspaceView",
+  name: "ComputeView",
 
   components: {
     Breadcrumb,

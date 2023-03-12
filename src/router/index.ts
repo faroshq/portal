@@ -11,6 +11,7 @@ import Card from "../views/CardView.vue";
 import Blank from "../views/BlankView.vue";
 import NotFound from "../views/NotFound.vue";
 import WorkspaceView from "../views/WorkspaceView.vue";
+import ComputeView from "../views/ComputeView.vue";
 import idsrvAuth from '../oauthclient/idsrvAuth';
 
 const routes: Array<RouteRecordRaw> = [
@@ -40,6 +41,15 @@ const routes: Array<RouteRecordRaw> = [
     path: "/organizations/:organization/workspaces/:workspace",
     name: "WorkspaceView",
     component: WorkspaceView,
+    meta: {
+      authName: idsrvAuth.authName
+    },
+  },
+  {
+    // Fow now we support only one compute per org, but we may want to support multiple in the future
+    path: "/organizations/:organization/computes/compute",
+    name: "ComputeView",
+    component: ComputeView,
     meta: {
       authName: idsrvAuth.authName
     },
