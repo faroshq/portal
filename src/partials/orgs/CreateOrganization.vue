@@ -79,12 +79,11 @@
             </div>
           </form>
 
-            <div>
-              <div v-if=this.error class="text-red-500">
-                {{ this.error.message }}
-              </div>
+          <div>
+            <div v-if=this.error class="text-red-500">
+              {{ this.error.message }}
             </div>
-
+          </div>
 
           <!--Footer-->
           <div class="flex justify-end pt-2">
@@ -154,8 +153,6 @@ export default defineComponent({
           this.setNotification("Organization "+org.metadata?.name+" created successfully")
           this.open = false;
           this.organizationForm.name = "";
-        } else {
-          console.log(this.error);
         }
       })
     },

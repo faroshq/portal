@@ -138,15 +138,13 @@ export default defineComponent({
   methods: {
     ...mapActions("organizationModule", [
       "deleteOrganizationAction",
-      "getOrganizationsAction",
     ]),
     ...mapActions("notificationModule", [
       "setNotification",
     ]),
     deleteOrganization() {
       this.deleteOrganizationAction(this.organization).then(() => {
-        this.setNotification("Organization "+this.organization.metadata?.name +" deleted");
-        this.getOrganizationsAction();
+        this.setNotification("Organization "+this.organization.metadata?.name +" deleted");;
         this.open = false;
       });
     },

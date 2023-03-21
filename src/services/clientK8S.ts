@@ -1,6 +1,7 @@
 import idsrvAuth from '../oauthclient/idsrvAuth';
 import * as http from 'http';
 import * as k8s from "@/api/k8s/";
+import { Middleware } from '@/api/k8s';
 
 import { KubernetesListObject, KubernetesObject } from "./types";
 
@@ -17,7 +18,6 @@ export class KubernetesObjectApi {
             },
             getName: () => "default",
           },
-         // BearerToken: idsrvAuth.accessToken,
        }
 
       const configuration = k8s.createConfiguration({
@@ -29,19 +29,11 @@ export class KubernetesObjectApi {
       this.client = client;
     }
 
-
-    /**
-     * Merge default headers and provided headers, setting the 'Accept' header to 'application/json' and, if the
-     * `action` is 'PATCH', the 'Content-Type' header to [[KubernetesPatchStrategies.StrategicMergePatch]].  Both of
-     * these defaults can be overriden by values provided in `optionsHeaders`.
-     *
-     * @param optionHeaders Headers from method's options argument.
-     * @param action HTTP action headers are being generated for.
-     * @return Headers to use in request.
-     */
-    public get(spec: KubernetesObject){
-      console.log("get", spec)
-      return this.client.listClusterCustomObject("scheduling.kcp.io", "v1alpha1", "locations")
+    public list(group: string, version: string, plural: string, ){
+      return this.client.listClusterCustomObject(group, version, plural)
     }
 
+    public create(group: string, version: string, plural: string, spec: KubernetesObject){
+      return this.client.createClusterCustomObject(group, version, plural, spec)
+    }
 }

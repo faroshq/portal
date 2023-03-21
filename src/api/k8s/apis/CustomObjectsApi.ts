@@ -97,7 +97,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -195,7 +195,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -214,7 +214,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param orphanDependents Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.
      * @param propagationPolicy Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
-     * @param body
+     * @param body 
      */
     public async deleteClusterCustomObject(group: string, version: string, plural: string, name: string, gracePeriodSeconds?: number, orphanDependents?: boolean, propagationPolicy?: string, dryRun?: string, body?: V1DeleteOptions, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
@@ -295,7 +295,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -314,7 +314,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param orphanDependents Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.
      * @param propagationPolicy Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
-     * @param body
+     * @param body 
      */
     public async deleteCollectionClusterCustomObject(group: string, version: string, plural: string, pretty?: string, gracePeriodSeconds?: number, orphanDependents?: boolean, propagationPolicy?: string, dryRun?: string, body?: V1DeleteOptions, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
@@ -394,7 +394,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -414,7 +414,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param orphanDependents Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.
      * @param propagationPolicy Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
-     * @param body
+     * @param body 
      */
     public async deleteCollectionNamespacedCustomObject(group: string, version: string, namespace: string, plural: string, pretty?: string, gracePeriodSeconds?: number, orphanDependents?: boolean, propagationPolicy?: string, dryRun?: string, body?: V1DeleteOptions, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
@@ -501,7 +501,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -521,7 +521,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param orphanDependents Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.
      * @param propagationPolicy Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
-     * @param body
+     * @param body 
      */
     public async deleteNamespacedCustomObject(group: string, version: string, namespace: string, plural: string, name: string, gracePeriodSeconds?: number, orphanDependents?: boolean, propagationPolicy?: string, dryRun?: string, body?: V1DeleteOptions, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
@@ -609,7 +609,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -654,7 +654,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -715,7 +715,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -776,7 +776,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -837,7 +837,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -906,7 +906,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -975,7 +975,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1044,7 +1044,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1167,7 +1167,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1298,7 +1298,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1384,7 +1384,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json-patch+json",
-
+        
             "application/merge-patch+json"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
@@ -1400,7 +1400,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1415,7 +1415,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param version the custom resource&#39;s version
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
      * @param force Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
@@ -1486,7 +1486,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json-patch+json",
-
+        
             "application/merge-patch+json"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
@@ -1502,7 +1502,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1517,7 +1517,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param version the custom resource&#39;s version
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
      * @param force Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
@@ -1588,7 +1588,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json-patch+json",
-
+        
             "application/merge-patch+json"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
@@ -1604,7 +1604,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1698,7 +1698,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json-patch+json",
-
+        
             "application/merge-patch+json"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
@@ -1714,7 +1714,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1730,7 +1730,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param namespace The custom resource&#39;s namespace
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
      * @param force Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
@@ -1808,9 +1808,9 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json-patch+json",
-
+        
             "application/merge-patch+json",
-
+        
             "application/apply-patch+yaml"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
@@ -1826,7 +1826,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -1842,7 +1842,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param namespace The custom resource&#39;s namespace
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
      * @param force Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
@@ -1920,9 +1920,9 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json-patch+json",
-
+        
             "application/merge-patch+json",
-
+        
             "application/apply-patch+yaml"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
@@ -1938,7 +1938,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -2029,7 +2029,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -2044,7 +2044,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param version the custom resource&#39;s version
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
      */
@@ -2120,7 +2120,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -2135,7 +2135,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param version the custom resource&#39;s version
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
      */
@@ -2211,7 +2211,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -2310,7 +2310,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -2326,7 +2326,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param namespace The custom resource&#39;s namespace
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
      */
@@ -2409,7 +2409,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -2425,7 +2425,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
      * @param namespace The custom resource&#39;s namespace
      * @param plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.
      * @param name the custom object&#39;s name
-     * @param body
+     * @param body 
      * @param dryRun When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
      * @param fieldManager fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
      */
@@ -2508,7 +2508,7 @@ export class CustomObjectsApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-
+        
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);

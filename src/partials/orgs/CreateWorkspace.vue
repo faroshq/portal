@@ -181,8 +181,6 @@ export default defineComponent({
           this.open = false;
           this.workspaceForm.name = "";
           this.workspaceForm.description = "";
-        } else {
-          console.log(this.error);
         }
       })
     },

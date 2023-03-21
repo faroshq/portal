@@ -1722,7 +1722,7 @@ export class ObjectSerializer {
      */
     public static getPreferredMediaType(mediaTypes: Array<string>): string {
         /** According to OAS 3 we should default to json */
-        if (!mediaTypes) {
+        if (mediaTypes.length === 0) {
             return "application/json";
         }
 

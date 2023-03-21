@@ -323,13 +323,6 @@ export default defineComponent({
     DeleteOrganization,
     CreateWorkspace,
   },
-
-  mounted() {
-    this.getOrganizationsAction().
-    then(() => {
-      this.getOrganizationListWorkspaces(this.organizations);
-    })
-  },
   data: () => ({
     showDeleteModal: false as boolean,
     deleteOrganization: {} as V1alpha1Organization,
@@ -354,11 +347,7 @@ export default defineComponent({
   methods: {
     ...mapActions("organizationModule", [
       "addOrganizationAction",
-      "getOrganizationsAction",
       "useOrganizationActions",
-    ]),
-    ...mapActions("workspaceModule", [
-      "getOrganizationListWorkspaces",
     ]),
     organizationCount() {
       return this.organizations.items.length;
@@ -379,7 +368,6 @@ export default defineComponent({
       return 0;
     },
     deleteIntention(org: V1alpha1Organization) {
-      console.log("delete", org.metadata?.name)
       this.deleteOrganization = org;
       this.showDeleteModal = true;
       //this.deleteIntentionsAction();
@@ -387,9 +375,7 @@ export default defineComponent({
     setDefaultOrganization(org: V1alpha1Organization) {
       this.useOrganizationActions(org).then(() => {
         // TODO: get workspaces
-      }).catch((err) => {
-        console.log(err);
-      });
+      })
     },
 
   }
