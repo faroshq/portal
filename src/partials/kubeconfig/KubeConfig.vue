@@ -2,7 +2,7 @@
 <div class="inline px-6 py-2 mt-3">
 
     <button
-      @click="this.onCreateKubeconfig"
+      @click="onCreateKubeconfig"
       class="px-6 py-2 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
     >
       Download user kubeconfig

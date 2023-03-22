@@ -7,9 +7,6 @@ const getters = {
   defaultWorkspace: (state: WorkspaceStateType) => {
     return state.defaultWorkspace;
   },
-  locations: (state: WorkspaceStateType) => {
-    return state.locations;
-  },
   loading: (state: WorkspaceStateType) => state.loading,
   error: (state: WorkspaceStateType) => state.error,
 };

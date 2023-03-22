@@ -1,9 +1,16 @@
 <template>
   <!-- Breadcrumb -->
   <Breadcrumb breadcrumb="TODO" />
+  <div>
+    <div v-if=error class="text-red-500">
+      {{ error.message }}
+    </div>
+  </div>
+
+
   <div v-if=loaded>
     <!-- Page Content -->
-    <CreateLocation :workspace="getWorkspace()" />
+    <CreateLocation :workspace="defaultWorkspace" />
   <div>
 
     <!-- Locations table -->
@@ -64,8 +71,8 @@
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="(loc) in getLocations()" :key="loc.metadata?.name">
+              <tbody v-if="locations != undefined">
+                <tr v-for="(loc) in locations.items" :key="loc.metadata?.name">
                   <td
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
@@ -111,8 +118,10 @@
                             />
                           </svg>
                         </a>
-                        <form method="POST">
-                          <button class="mx-2 px-2 rounded-md">
+                          <button
+                          class="mx-2 px-2 rounded-md"
+                          @click="deleteLocation(loc)"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="h-5 w-5 text-red-700"
@@ -126,7 +135,6 @@
                               />
                             </svg>
                           </button>
-                        </form>
                       </span>
                     </div>
                   </td>
@@ -168,6 +176,8 @@ import Breadcrumb from '../partials/Breadcrumb.vue'
 import CreateLocation from "../partials/orgs/CreateLocation.vue";
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
+import { V1alpha1Location } from '@/api/kcp';
+import { V1alpha1Workspace } from '@/api/faros';
 
 export default defineComponent({
   name: "LocationsView",
@@ -184,7 +194,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.workspace = this.getWorkspace()
+    this.workspace = this.defaultWorkspace
     this.useWorkspaceActions(this.workspace).then(() => {
       this.loaded = true
     })
@@ -192,16 +202,11 @@ export default defineComponent({
 
   computed: {
     ...mapGetters("workspaceModule", {
-      workspaces: "workspaces",
-      workspaceLoading: "loading",
+      defaultWorkspace: "defaultWorkspace",
+    }),
+    ...mapGetters("locationModule", {
       locations: "locations",
       error: "error",
-    }),
-   ...mapGetters("organizationModule", {
-        organizations: "organizations",
-        defaultOrganization: "defaultOrganization",
-        error: "error",
-        organizationsloading: "loading",
     }),
     selectedWorkspaceName() {
       return this.$route.params.workspace
@@ -213,24 +218,16 @@ export default defineComponent({
   methods: {
     ...mapActions("workspaceModule", [
       "useWorkspaceActions",
-      "listWorkspaceLocations",
     ]),
-    getWorkspace(){
-        let workspaces = this.workspaces.get(this.selectedOrganizationName)
-        if (workspaces != undefined){
-          for (let workspace of workspaces.items) {
-            if (workspace.metadata?.name == this.selectedWorkspaceName) {
-              return workspace
-            }
-          }
-        }
-    },
-    getLocations(){
-      let locations = this.locations.get(this.selectedWorkspaceName)
-      if (locations != undefined){
-        return locations.items
+    ...mapActions("locationModule", [
+      "deleteLocationActions"
+    ]),
+    deleteLocation(location: V1alpha1Location){
+      const wl = {
+        workspace: this.defaultWorkspace,
+        location: location,
       }
-      return []
+      this.deleteLocationActions(wl)
     }
   }
 })

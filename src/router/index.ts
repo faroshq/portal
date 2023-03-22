@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
+import OrganizationsDashboard from "../views/OrganizationsDashboard.vue";
 import Forms from "../views/Forms.vue";
 import Tables from "../views/Tables.vue";
 import UIElements from "../views/UIElements.vue";
@@ -23,8 +23,8 @@ const routes: Array<RouteRecordRaw> = [
  // },
   {
     path: "/",
-    name: "Dashboard",
-    component: Dashboard,
+    name: "OrganizationsDashboard",
+    component: OrganizationsDashboard,
     meta: {
       authName: idsrvAuth.authName
     },

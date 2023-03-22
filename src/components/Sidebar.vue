@@ -67,7 +67,7 @@
           Workspaces {{ defaultOrganization.metadata?.name }}
         </p>
 
-        <div v-for="(w) in getDefaultOrganizationWorkspaces()" :key="w">
+        <div v-for="(w) in workspaces.items" :key="w">
 
         <div
           @click="openWorkspace(w.metadata?.name)"
@@ -105,14 +105,14 @@
         </router-link>
         </div>
         <!--- submenu -->
-        <div v-if="isOpen(w.metadata?.name)"
+        <div v-if="isOpenWorkspace(w.metadata?.name)"
           class="flex items-center px-4 py-1 duration-200 inactiveClass"
         >
 
           <router-link
-            class="flex items-center px-4 py-1 duration-200 inactiveClass"
+            class="pl-4 my-2 text-xs font-semibold mb-4 text-gray-400"
             :to="`/organizations/${defaultOrganization.metadata?.name}/workspaces/${w.metadata?.name}/locations`">
-            Locations
+            <span class="mx-4">Locations</span>
           </router-link>
 
         </div>
@@ -183,19 +183,16 @@ export default defineComponent({
   methods:{
     openWorkspace(workspace: string){
       this.workspacesOpen.set(workspace, !this.workspacesOpen.get(workspace))
+      // close all other to not to confuse state and users
+      for (const [key, value] of this.workspacesOpen.entries()) {
+        if(key !== workspace){
+          this.workspacesOpen.set(key, false)
+        }
+      }
     },
-    isOpen(workspace: string){
+    isOpenWorkspace(workspace: string){
       return this.workspacesOpen.get(workspace)
     },
-    getDefaultOrganizationWorkspaces(){
-        if (this.defaultOrganization && this.defaultOrganization.metadata?.name) {
-          if (this.workspaces.get(this.defaultOrganization.metadata?.name) !== undefined) {
-            console.log(this.workspaces.get(this.defaultOrganization.metadata?.name).items)
-            return this.workspaces.get(this.defaultOrganization.metadata?.name).items
-          }
-        }
-        return []
-      }
   }
 });
 </script>

@@ -36,4 +36,9 @@ export class KubernetesObjectApi {
     public create(group: string, version: string, plural: string, spec: KubernetesObject){
       return this.client.createClusterCustomObject(group, version, plural, spec)
     }
+
+    public delete(group: string, version: string, plural: string, spec: KubernetesObject){
+      return this.client.deleteClusterCustomObject(group, version, plural, spec.metadata?.name as string)
+    }
+
 }

@@ -1,5 +1,6 @@
 import * as types from "./types";
 import { Commit } from 'vuex';
+import { store } from "../index";
 import {
   createOrganization,
   getOrganizations,
@@ -21,8 +22,8 @@ export function deleteOrganizationAction({ commit }: { commit: Commit}, organiza
   commit(types.LOADING_ORGANIZATION, true);
   const name = organization.metadata?.name as string;
   return deleteOrganization(name)
-    .then(() => commit(types.REMOVE_ORGANIZATION, organization.metadata?.name as string))
-    .catch((e) =>  commit(types.ERROR_ORGANIZATION, e.body))
+    .then(() => commit(types.REMOVE_ORGANIZATION, name))
+    .catch((e) =>  commit(types.ERROR_ORGANIZATION, e))
     .finally(() => commit(types.LOADING_ORGANIZATION, false));
 }
 
@@ -37,4 +38,5 @@ export function getOrganizationsAction({ commit }: { commit: Commit}) {
 
 export function useOrganizationActions({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
   commit(types.SET_DEFAULT_ORGANIZATION, organization);
-}
+  store.dispatch("workspaceModule/loadAllWorkspaces", organization);
+ }

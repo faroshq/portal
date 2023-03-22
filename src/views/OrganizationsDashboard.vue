@@ -48,7 +48,7 @@
             </div>
 
             <div class="mx-5">
-              <h4 class="text-2xl font-semibold text-gray-700">{{ this.organizationCount() }}</h4>
+              <h4 class="text-2xl font-semibold text-gray-700">{{ organizationCount() }}</h4>
               <div class="text-gray-500">Organizations</div>
             </div>
           </div>
@@ -81,7 +81,7 @@
             </div>
 
             <div class="mx-5">
-              <h4 class="text-2xl font-semibold text-gray-700"> {{ this.totalWorkspacesCount() }}</h4>
+              <h4 class="text-2xl font-semibold text-gray-700"> {{ totalWorkspacesCount() }}</h4>
               <div class="text-gray-500">Total workspaces</div>
             </div>
           </div>
@@ -241,7 +241,7 @@
                       bg-green-100
                       rounded-full
                     "
-                    >{{ this.getWorkspaceCount(u) }}</span
+                    >{{ getWorkspaceCount(u) }}</span
                   >
                 </td>
 
@@ -284,9 +284,9 @@
                       />
                       <button
                         class="mx-2 px-2 rounded-md"
-                        @click="this.setDefaultOrganization(u)"
+                        @click="setDefaultOrganization(u)"
                       >
-                      <div v-if="this.defaultOrganization != null && this.defaultOrganization.metadata?.name === u.metadata?.name" class="i-heroicons-star-solid"></div>
+                      <div v-if="defaultOrganization != null && defaultOrganization.metadata?.name === u.metadata?.name" class="i-heroicons-star-solid"></div>
                       <div v-else class="i-heroicons-star"></div>
                       </button>
 
@@ -314,7 +314,7 @@ import DeleteOrganization from "../partials/orgs/DeleteOrganization.vue";
 import CreateWorkspace from "../partials/orgs/CreateWorkspace.vue";
 
 export default defineComponent({
-  name: "Dashboard",
+  name: "OrganizationsDashboard",
   components: {
     Banner,
     Breadcrumb,
@@ -354,17 +354,10 @@ export default defineComponent({
     },
     totalWorkspacesCount(){
       let count = 0;
-      for (const orgname of this.workspaces.keys()) {
-          count += this.workspaces.get(orgname)?.items.length;
-      }
+      count += this.workspaces.items.length;
       return count;
     },
     getWorkspaceCount(org: V1alpha1Organization) {
-      for (const orgname of this.workspaces.keys()) {
-        if (orgname === org.metadata?.name) {
-          return this.workspaces.get(orgname)?.items.length;
-        }
-      }
       return 0;
     },
     deleteIntention(org: V1alpha1Organization) {

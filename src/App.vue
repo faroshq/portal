@@ -46,7 +46,7 @@ export default defineComponent({
       "useOrganizationActions",
     ]),
     ...mapActions("workspaceModule", [
-      "startupWorkspaceLoad",
+      "loadAllWorkspaces",
     ]),
 
   },
@@ -57,18 +57,27 @@ export default defineComponent({
     mounted() {
       console.log("App mounted")
       this.getOrganizationsAction().then(() => {
+        // no orgs - just return
+        if (this.organizations.items.length == 0) {
+          this.loaded = true
+          return
+        }
+        // no default - set first
         const defaultOrganization = localStorage.getItem('defaultOrganization');
-        this.startupWorkspaceLoad(this.organizations).then(() => {
-          for (let organization of this.organizations.items) {
-              if (organization.metadata?.name == defaultOrganization) {
-                this.useOrganizationActions(organization)
-              }
-            }
+        if (defaultOrganization == null) {
+          this.useOrganizationActions(this.organizations.items[0])
+        }
+        for (let organization of this.organizations.items) {
+          if (organization.metadata?.name == defaultOrganization) {
+            this.useOrganizationActions(organization).then(() => {
+              this.loadAllWorkspaces(organization)
+            })
+          }
+        }
           }).finally(() => {
             this.loaded = true
           })
-      })
-    },
+      },
 
   setup() {
     const { currentRoute } = useRouter()

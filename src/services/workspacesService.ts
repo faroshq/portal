@@ -9,7 +9,7 @@ export function createWorkspace(orgName: string, workspace: faros.V1alpha1Worksp
 }
 
 export function deleteWorkspace(orgName: string, workspace: faros.V1alpha1Workspace) {
-  return farosClient.default.deleteWorkspace(orgName, workspace.metadata?.name as string)
+  return farosClient.default.deleteWorkspace(workspace.metadata?.name as string, orgName)
 }
 
 export function getWorkspaces(orgName: string) {
@@ -26,4 +26,11 @@ export function createLocation(workspace: V1alpha1Workspace, location: kcp.V1alp
 export function listLocations(workspace: V1alpha1Workspace) {
   const client = new KubernetesObjectApi(workspace.status?.workspaceURL as string);
   return client.list("scheduling.kcp.io", "v1alpha1", "locations")
+}
+
+export function deleteLocation(workspace: V1alpha1Workspace, location: kcp.V1alpha1Location) {
+  const client = new KubernetesObjectApi(workspace.status?.workspaceURL as string);
+  location.kind = "Location"
+  location.apiVersion = "scheduling.kcp.io/v1alpha1"
+  return client.delete("scheduling.kcp.io", "v1alpha1", "locations", location)
 }

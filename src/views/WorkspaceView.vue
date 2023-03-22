@@ -1,21 +1,16 @@
 <template>
   <!-- Breadcrumb -->
   <Breadcrumb breadcrumb="TODO" />
-  <div v-if=loaded>
-    <!-- Page Content -->
+    <div v-if=loaded>
+      <!-- Page Content -->
     <KubeConfig :workspace="getWorkspace()" />
 
-    <CreateLocation :workspace="getWorkspace()" />
-    <div>
+    <DeleteWorkspace :workspace="getWorkspace()" />
 
-    APIExports:
 
-    {{  getWorkspace() }}
-    </div>
+      <!-- <CreateLocation :workspace="getWorkspace()" /> -->
     <div>
-    Locations:
-    {{ getLocations() }}
-   </div>
+  </div>
   </div>
 
 
@@ -23,7 +18,9 @@
 <script lang="ts">
 import Breadcrumb from '../partials/Breadcrumb.vue'
 import KubeConfig from '../partials/kubeconfig/KubeConfig.vue'
-import CreateLocation from "../partials/orgs/CreateLocation.vue";
+import DeleteWorkspace from '../partials/orgs/DeleteWorkspace.vue'
+//import CreateWorkspace from '../partials/orgs/CreateWorkspace.vue'
+//import CreateLocation from "../partials/orgs/CreateLocation.vue_";
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 
@@ -33,7 +30,9 @@ export default defineComponent({
   components: {
     Breadcrumb,
     KubeConfig,
-    CreateLocation,
+    DeleteWorkspace,
+   // CreateWorkspace,
+    //CreateLocation,
   },
 
   data() {
@@ -75,22 +74,12 @@ export default defineComponent({
       "listWorkspaceLocations",
     ]),
     getWorkspace(){
-        let workspaces = this.workspaces.get(this.selectedOrganizationName)
-        if (workspaces != undefined){
-          for (let workspace of workspaces.items) {
-            if (workspace.metadata?.name == this.selectedWorkspaceName) {
-              return workspace
-            }
-          }
+      for (let workspace of this.workspaces.items) {
+        if (workspace.metadata?.name == this.selectedWorkspaceName) {
+          return workspace
         }
-    },
-    getLocations(){
-      let locations = this.locations.get(this.selectedWorkspaceName)
-      if (locations != undefined){
-        return locations
       }
-      return []
-    }
+    },
   }
 })
 

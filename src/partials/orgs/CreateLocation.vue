@@ -2,7 +2,7 @@
   <div class="inline px-6 py-2 mt-3">
 
       <button
-        @click="this.open = true"
+        @click="open = true"
         class="px-6 py-2 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
       >
         Create Location
@@ -10,11 +10,11 @@
 
       <div
         :class="`modal ${
-          !this.open && 'opacity-0 pointer-events-none'
+          !open && 'opacity-0 pointer-events-none'
         } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`"
       >
         <div
-          @click="this.open = false"
+          @click="open = false"
           class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay"
         ></div>
 
@@ -43,7 +43,7 @@
             <!--Title-->
             <div class="flex items-center justify-between pb-3">
               <p class="text-2xl font-bold">Locations</p>
-              <div class="z-50 cursor-pointer modal-close" @click="this.open = false">
+              <div class="z-50 cursor-pointer modal-close" @click="open = false">
                 <svg
                   class="text-black fill-current"
                   xmlns="http://www.w3.org/2000/svg"
@@ -65,14 +65,14 @@
             </p>
 
             <form
-              :obj="this.form"
+              :obj="form"
               >
                 <label class="text-xs">Name</label>
 
                 <div class="relative mt-2 rounded-md shadow-sm">
                   <input
                     type="text"
-                    v-model="this.form.name"
+                    v-model="form.name"
                     class="w-full px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                   />
 
@@ -112,7 +112,7 @@
 import { defineComponent, } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import { V1alpha1Workspace } from "@/api/faros";
-import { WorkspacedLocation } from "@/store/workspaces/types";
+import { WorkspacedLocation } from "@/store/locations/types";
 import { V1alpha1Location } from "@/api/kcp";
 
   export default defineComponent({
@@ -135,14 +135,14 @@ import { V1alpha1Location } from "@/api/kcp";
     },
 
     computed: {
-      ...mapGetters("workspaceModule", {
+      ...mapGetters("locationModule", {
         error: "error",
         loading: "loading",
       }),
     },
 
     methods: {
-      ...mapActions("workspaceModule", [
+      ...mapActions("locationModule", [
         "createLocationActions",
       ]),
       ...mapActions("notificationModule", [

@@ -1,12 +1,11 @@
 <template>
-<div class="inline px-6 py-2 mt-3">
-
-    <button
-      @click="open = true"
-      class="px-6 py-2 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
-    >
-      Create organization
-    </button>
+  <div>
+      <button
+        class="px-6 py-2 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+        @click="open = true"
+      >
+      Delete workspace
+     </button>
 
     <div
       :class="`modal ${
@@ -42,7 +41,7 @@
         <div class="px-6 py-4 text-left modal-content">
           <!--Title-->
           <div class="flex items-center justify-between pb-3">
-            <p class="text-2xl font-bold">Organizations</p>
+            <p class="text-2xl font-bold">Delete workspace</p>
             <div class="z-50 cursor-pointer modal-close" @click="open = false">
               <svg
                 class="text-black fill-current"
@@ -57,33 +56,28 @@
               </svg>
             </div>
           </div>
+        </div>
 
           <!--Body-->
           <p>
-            Organizations allows you to manage your teams and projects. You can create
-            multiple workspaces/virtual cluster for your teams inside an organization.
+            Delete workspace? This action cannot be undone and will delete all
+            associated resources and data.
           </p>
 
-          <form
-            :obj="organizationForm"
-            >
-              <label class="text-xs">Name</label>
 
-              <div class="relative mt-2 rounded-md shadow-sm">
-                <input
-                  type="text"
-                  v-model="organizationForm.name"
-                  class="w-full px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
-                />
+          <div class="relative mt-2 rounded-md shadow-sm">
+            <input
+              type="text"
+              v-model="currentWorkspaceName"
+              class="w-full px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+          />
 
+            <div>
+              <div v-if=error class="text-red-500">
+                {{ error.message }}
+              </div>
             </div>
-          </form>
 
-          <div>
-            <div v-if=error class="text-red-500">
-              {{ error.message }}
-            </div>
-          </div>
 
           <!--Footer-->
           <div class="flex justify-end pt-2">
@@ -94,10 +88,10 @@
               Close
             </button>
             <button
-             @click="onSubmitOrganization"
+             @click="deleteWorkspace"
               class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
             >
-              Create
+              Delete
             </button>
           </div>
         </div>
@@ -108,54 +102,58 @@
 
 <script lang="ts">
 
-import { defineComponent, } from "vue";
+import { V1alpha1Organization, V1alpha1Workspace } from "@/api/faros";
+import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
-import { V1alpha1Organization } from "@/api/faros";
 
 export default defineComponent({
-  name: "CreateOrganization",
+  name: "DeleteWorkspace",
 
-  data () {
+  props: {
+    workspace:{
+      type: V1alpha1Workspace,
+      required: true,
+    },
+    renderIcon: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  data() {
     return {
       open: false,
-      organizationForm:  {
-        name: "",
-      },
-    }
+    };
   },
 
   computed: {
-    ...mapGetters("organizationModule", {
-      organizations: "organizations",
-      organization: "organization",
+    ...mapGetters("workspaceModule", {
+      workspaces: "workspaces",
+      defaultWorkspace: "defaultWorkspace",
       error: "error",
       loading: "loading",
     }),
+    currentWorkspaceName() {
+      return this.workspace?.metadata?.name;
+    },
   },
 
   methods: {
-    ...mapActions("organizationModule", [
-      "addOrganizationAction",
+    ...mapActions("workspaceModule", [
+      "deleteWorkspaceAction",
     ]),
     ...mapActions("notificationModule", [
       "setNotification",
     ]),
-
-    onSubmitOrganization() {
-      let org : V1alpha1Organization =  {
-        metadata: {
-          name: this.organizationForm.name,
-        },
-      };
-
-      this.addOrganizationAction(org).then(() => {
-        if (this.error == "") {
-          this.setNotification("Organization "+org.metadata?.name+" created successfully")
-          this.open = false;
-          this.organizationForm.name = "";
-        }
-      })
+    deleteWorkspace() {
+      const name = this.workspace.metadata?.name;
+      this.deleteWorkspaceAction(this.workspace).then(() => {
+        this.setNotification("Workspace "+name +" deleted");
+        this.open = false;
+        this.$router.push({ name: "OrganizationsDashboard" });
+      });
     },
+
   },
 
 })
