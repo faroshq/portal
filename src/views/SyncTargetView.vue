@@ -10,7 +10,7 @@
 
   <div v-if=loaded>
     <!-- Page Content -->
-    <CreateLocation :workspace="defaultWorkspace" />
+    <CreateSyncTarget :workspace="defaultWorkspace" />
   <div>
 
     <!-- Locations table -->
@@ -173,18 +173,18 @@
 </template>
 <script lang="ts">
 import Breadcrumb from '../partials/Breadcrumb.vue'
-import CreateLocation from "../partials/orgs/CreateLocation.vue";
+import CreateSyncTarget from "../partials/orgs/CreateSyncTarget.vue";
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
-import { V1alpha1Location, V1alpha1SyncTarget } from '@/api/kcp';
+import { V1alpha1SyncTarget } from '@/api/kcp';
 
 export default defineComponent({
   name: "SyncTargetView",
 
   components: {
     Breadcrumb,
-    CreateLocation,
-  },
+    CreateSyncTarget,
+},
 
   data() {
     return {
@@ -219,14 +219,14 @@ export default defineComponent({
       "useWorkspaceActions",
     ]),
     ...mapActions("synctargetModule", [
-      //"deleteLocationActions"
+      "deleteSyncTargetActions"
     ]),
     deleteSynctarget(synctarget: V1alpha1SyncTarget){
       const wl = {
         workspace: this.defaultWorkspace,
-        location: location,
+        synctarget: synctarget,
       }
-     // this.deleteLocationActions(wl)
+      this.deleteSyncTargetActions(wl)
     }
   }
 })

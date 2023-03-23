@@ -21,7 +21,7 @@ export class V1alpha1SyncTarget {
     * Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     */
     'kind'?: string;
-    'metadata'?: V1ObjectMeta;
+    'metadata': V1ObjectMeta;
     'spec'?: V1alpha1SyncTargetSpec;
     'status'?: V1alpha1SyncTargetStatus;
 
