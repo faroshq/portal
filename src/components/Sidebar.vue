@@ -115,6 +115,12 @@
             <span class="mx-4">Locations</span>
           </router-link>
 
+          <router-link
+            class="pl-4 my-2 text-xs font-semibold mb-4 text-gray-400"
+            :to="`/organizations/${defaultOrganization.metadata?.name}/workspaces/${w.metadata?.name}/synctargets`">
+            <span class="mx-4">SyncTargets</span>
+          </router-link>
+
         </div>
       </div>
 

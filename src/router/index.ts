@@ -12,6 +12,7 @@ import Blank from "../views/BlankView.vue";
 import NotFound from "../views/NotFound.vue";
 import WorkspaceView from "../views/WorkspaceView.vue";
 import LocationsView from "../views/LocationsView.vue";
+import SyncTargetView from "../views/SyncTargetView.vue";
 import idsrvAuth from '../oauthclient/idsrvAuth';
 
 const routes: Array<RouteRecordRaw> = [
@@ -49,6 +50,14 @@ const routes: Array<RouteRecordRaw> = [
     path: "/organizations/:organization/workspaces/:workspace/locations",
     name: "LocationsView",
     component: LocationsView,
+    meta: {
+      authName: idsrvAuth.authName
+    },
+  },
+  {
+    path: "/organizations/:organization/workspaces/:workspace/synctargets",
+    name: "SyncTargetView",
+    component: SyncTargetView,
     meta: {
       authName: idsrvAuth.authName
     },

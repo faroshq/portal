@@ -18,7 +18,7 @@
     <div class="mt-8">
 
       <div class="mt-6">
-        <h2 class="text-xl font-semibold leading-tight text-gray-700">Locations</h2>
+        <h2 class="text-xl font-semibold leading-tight text-gray-700">SyncTargets</h2>
 
         <div class="flex flex-col mt-3 sm:flex-row">
           <!--
@@ -71,8 +71,8 @@
                   </th>
                 </tr>
               </thead>
-              <tbody v-if="locations != undefined">
-                <tr v-for="(loc) in locations.items" :key="loc.metadata?.name">
+              <tbody v-if="synctargets != undefined">
+                <tr v-for="(loc) in synctargets.items" :key="loc.metadata?.name">
                   <td
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
@@ -120,7 +120,7 @@
                         </a>
                           <button
                           class="mx-2 px-2 rounded-md"
-                          @click="deleteLocation(loc)"
+                          @click="deleteSynctarget(loc)"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -176,10 +176,10 @@ import Breadcrumb from '../partials/Breadcrumb.vue'
 import CreateLocation from "../partials/orgs/CreateLocation.vue";
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
-import { V1alpha1Location } from '@/api/kcp';
+import { V1alpha1Location, V1alpha1SyncTarget } from '@/api/kcp';
 
 export default defineComponent({
-  name: "LocationsView",
+  name: "SyncTargetView",
 
   components: {
     Breadcrumb,
@@ -203,8 +203,8 @@ export default defineComponent({
     ...mapGetters("workspaceModule", {
       defaultWorkspace: "defaultWorkspace",
     }),
-    ...mapGetters("locationModule", {
-      locations: "locations",
+    ...mapGetters("synctargetModule", {
+      synctargets: "synctargets",
       error: "error",
     }),
     selectedWorkspaceName() {
@@ -218,15 +218,15 @@ export default defineComponent({
     ...mapActions("workspaceModule", [
       "useWorkspaceActions",
     ]),
-    ...mapActions("locationModule", [
-      "deleteLocationActions"
+    ...mapActions("synctargetModule", [
+      //"deleteLocationActions"
     ]),
-    deleteLocation(location: V1alpha1Location){
+    deleteSynctarget(synctarget: V1alpha1SyncTarget){
       const wl = {
         workspace: this.defaultWorkspace,
         location: location,
       }
-      this.deleteLocationActions(wl)
+     // this.deleteLocationActions(wl)
     }
   }
 })

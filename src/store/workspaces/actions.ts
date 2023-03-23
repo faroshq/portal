@@ -40,6 +40,7 @@ export function getWorkspacesAction({ commit }: { commit: Commit}, orgName: stri
 export function useWorkspaceActions({ commit }: { commit: Commit}, workspace: V1alpha1Workspace) {
   commit(types.SET_DEFAULT_WORKSPACE, workspace);
   store.dispatch("locationModule/listAllLocations", workspace);
+  store.dispatch("synctargetModule/listAllSyncTargets", workspace);
 }
 
 // startupWorkspaceLoad is called when the application starts up. It will load all the workspaces for all the organizations

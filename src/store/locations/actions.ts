@@ -4,7 +4,7 @@ import {
   createLocation,
   listLocations,
   deleteLocation,
-} from "@/services/workspacesService";
+} from "@/services/locationsService";
 
 import {V1alpha1Workspace, } from "@/api/faros";
 import { V1alpha1Location } from "@/api/kcp";

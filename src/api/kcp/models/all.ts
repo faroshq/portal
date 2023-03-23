@@ -1,2 +1,5 @@
 export * from './V1alpha1Location'
 export * from './V1alpha1LocationList'
+export * from './V1alpha1WorkspaceType'
+export * from './V1alpha1SyncTarget'
+export * from './Conditions'
