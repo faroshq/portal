@@ -134,7 +134,8 @@ export default defineComponent({
       loading: "loading",
     }),
     currentWorkspaceName() {
-      return this.workspace?.metadata?.name;
+      const ws = this.workspace as V1alpha1Workspace;
+      return ws.metadata?.name;
     },
   },
 
@@ -146,7 +147,8 @@ export default defineComponent({
       "setNotification",
     ]),
     deleteWorkspace() {
-      const name = this.workspace.metadata?.name;
+      const ws = this.workspace as V1alpha1Workspace;
+      const name = ws.metadata?.name;
       this.deleteWorkspaceAction(this.workspace).then(() => {
         this.setNotification("Workspace "+name +" deleted");
         this.open = false;

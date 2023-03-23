@@ -57,7 +57,17 @@
                   <th
                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                   >
-                    Created at
+                    Labels
+                  </th>
+                  <th
+                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                  >
+                    Targeting internal compute
+                  </th>
+                  <th
+                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                  >
+                    Exposing to user placements
                   </th>
                   <th
                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
@@ -87,7 +97,21 @@
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
                     <p class="text-gray-900 whitespace-nowrap">
-                      {{ loc.metadata?.created }}
+                      {{ loc.metadata?.labels }}
+                    </p>
+                  </td>
+                  <td
+                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                  >
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ loc.spec?.instanceSelector }}
+                    </p>
+                  </td>
+                  <td
+                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                  >
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ loc.spec?.availableSelectorLabels }}
                     </p>
                   </td>
                   <td

@@ -13,20 +13,16 @@ export function createLocationActions({ commit }: { commit: Commit}, wl: types.W
   commit(types.LOADING_LOCATIONS, true)
   commit(types.ERROR_LOCATION, null)
   return createLocation(wl.workspace, wl.location).
-    then((value: V1alpha1Location) => {
-      commit(types.ADD_LOCATION, value)
-    }).
-    catch((e: any) => commit(types.ERROR_LOCATION, e)).
-   finally(() => commit(types.LOADING_LOCATIONS, false));
+  then((value: V1alpha1Location) => commit(types.ADD_LOCATION, value)).
+  catch((e: any) => commit(types.ERROR_LOCATION, e)).
+  finally(() => commit(types.LOADING_LOCATIONS, false));
 }
 
 export function deleteLocationActions({ commit }: { commit: Commit}, wl: types.WorkspacedLocation) {
  commit(types.LOADING_LOCATIONS, true)
  commit(types.ERROR_LOCATION, null)
   return deleteLocation(wl.workspace, wl.location).
-    then(() => {
-      commit(types.REMOVE_LOCATION, wl.location)
-    }).
+    then(() => commit(types.REMOVE_LOCATION, wl.location)).
     catch((e: any) => commit(types.ERROR_LOCATION, e)).
     finally(() => commit(types.LOADING_LOCATIONS, false));
 }
@@ -35,7 +31,7 @@ export function listAllLocations({ commit }: { commit: Commit}, workspace: V1alp
   commit(types.LOADING_LOCATIONS, true);
   commit(types.ERROR_LOCATION, null)
   return listLocations(workspace).
-    then((value) => commit(types.SET_LOCATIONS, value)).
-    catch((e) => commit(types.ERROR_LOCATION, e)).
+    then((value: V1alpha1Location) => commit(types.SET_LOCATIONS, value)).
+    catch((e: any) => commit(types.ERROR_LOCATION, e)).
     finally(() => commit(types.LOADING_LOCATIONS, false));
 }

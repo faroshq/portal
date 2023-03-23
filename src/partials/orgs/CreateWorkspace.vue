@@ -151,7 +151,8 @@ export default defineComponent({
       loading: "loading",
     }),
     currentOrganizationName() {
-      return this.organization?.metadata?.name;
+      const org = this.organization as V1alpha1Organization;
+      return org.metadata?.name;
     },
   },
 

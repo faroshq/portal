@@ -54,9 +54,9 @@ export class V1alpha1LocationSpec {
 */
 export class V1alpha1GroupVersionResource {
     /**
-    * groupVersion specifies the API group and version in the form \"group/version\"
+    * group specifies the API group and version in the form \"group/version\"
     */
-    'groupVersion': string;
+    'group': string;
     /**
     * version specifies the version in the form of \"version\". This is to save the clients the trouble of splitting the GroupVersion.
     */
@@ -70,8 +70,8 @@ export class V1alpha1GroupVersionResource {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "groupVersion",
-            "baseName": "groupVersion",
+            "name": "group",
+            "baseName": "group",
             "type": "string",
             "format": ""
         },

@@ -64,7 +64,7 @@
               It is provider for compute resources and storage.
             </p>
 
-            <!-- Container name -->
+            <!-- SyncTarget name -->
             <v-row align="center">
               <v-col class="d-flex" md="8" sm="12" xs="12">
                 <v-text-field
@@ -75,6 +75,57 @@
               ></v-text-field>
               </v-col>
             </v-row>
+
+            <div class="mt-4">
+              <v-row align="center">
+                <v-col class="d-flex" md="8" sm="12" xs="12">
+                  <p>
+                    Labels are used to identify SyncTargets and are used to group SyncTargets
+                    using locations.
+                  </p>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    outlined
+                    class="primary--text"
+                    :disabled="loading"
+                    :loading="loading"
+                    @click="addLabel(labels)"
+                   >
+                   Add label
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <template v-for="(label, i) in labels" :key="`labels-${i}`">
+                <v-row  >
+                  <v-col cols="" sm="3">
+                    <v-text-field
+                      v-model="label.key"
+                      label="Key"
+                      outlined
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="" sm="4">
+                    <v-text-field
+                      v-model="label.value"
+                      label="Value"
+                      outlined
+                  ></v-text-field>
+                  </v-col>
+                  <v-col sm="1">
+                    <div class="text-center">
+                      <v-btn
+                        fab
+                        icon
+                        @click="deleteLabel(i)"
+                      >
+                      <v-icon>mdi-delete</v-icon>
+                     </v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
+              </template>
+            </div>
 
             <div>
               <div v-if=error class="text-red-500">
@@ -125,9 +176,17 @@ import { WorkspacedSyncTarget } from "@/store/synctargets/types";
     data () {
       return {
         open: false,
+        // placeholders for creation
+        labels: [
+          {
+            key: "",
+            value: "",
+          },
+        ],
         newSyncTarget: {
           metadata: {
             name: "",
+            labels: {},
           },
         } as V1alpha1SyncTarget,
       }
@@ -149,12 +208,18 @@ import { WorkspacedSyncTarget } from "@/store/synctargets/types";
       ]),
 
       onSubmit() {
-        console.log(this.newSyncTarget)
-
         let payload: WorkspacedSyncTarget
         payload = {} as WorkspacedSyncTarget
         payload.synctarget = this.newSyncTarget
         payload.workspace = this.workspace
+
+        // convert labels to payload
+        payload.synctarget.metadata.labels = {}
+        for (let i = 0; i < this.labels.length; i++) {
+          if (this.labels[i].key != "") {
+            payload.synctarget.metadata.labels[this.labels[i].key] = this.labels[i].value
+          }
+        }
 
         this.createSyncTargetActions(payload).then(() => {
           if (this.error == "") {
@@ -164,13 +229,23 @@ import { WorkspacedSyncTarget } from "@/store/synctargets/types";
           }
         });
       },
+      // addLabels add empty line to labels UI for more labels
+      addLabel(labels: any) {
+        labels.push({key: "", value: ""})
+      },
+      // deleteLabel deletes label from labels UI
+      deleteLabel(index: number) {
+        this.labels.splice(index, 1)
+      },
     },
-
   })
 
   </script>
   <style>
     .modal {
       transition: opacity 0.25s ease;
+    }
+    .md\:max-w-md {
+      max-width: 75rem;
     }
   </style>

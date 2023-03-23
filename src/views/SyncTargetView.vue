@@ -57,7 +57,7 @@
                   <th
                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                   >
-                    Created at
+                    Labels
                   </th>
                   <th
                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
@@ -72,14 +72,14 @@
                 </tr>
               </thead>
               <tbody v-if="synctargets != undefined">
-                <tr v-for="(loc) in synctargets.items" :key="loc.metadata?.name">
+                <tr v-for="(st) in synctargets.items" :key="st.metadata?.name">
                   <td
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
 
                       <div class="ml-3">
                         <p class="text-gray-900 whitespace-nowrap">
-                          {{ loc.metadata?.name }}
+                          {{ st.metadata?.name }}
                         </p>
                       </div>
                   </td>
@@ -87,13 +87,13 @@
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
                     <p class="text-gray-900 whitespace-nowrap">
-                      {{ loc.metadata?.created }}
+                      {{ st.metadata?.labels }}
                     </p>
                   </td>
                   <td
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
-                    <span class="relative">{{ loc.status }}</span>
+                    <span class="relative">{{ st.status }}</span>
 
                   </td>
                   <td
@@ -120,7 +120,7 @@
                         </a>
                           <button
                           class="mx-2 px-2 rounded-md"
-                          @click="deleteSynctarget(loc)"
+                          @click="deleteSynctarget(st)"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

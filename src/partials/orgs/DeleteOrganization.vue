@@ -131,7 +131,8 @@ export default defineComponent({
       loading: "loading",
     }),
     currentOrganizationName() {
-      return this.organization?.metadata?.name;
+      const org = this.organization as V1alpha1Organization;
+      return org.metadata?.name;
     },
   },
 
@@ -144,7 +145,9 @@ export default defineComponent({
     ]),
     deleteOrganization() {
       this.deleteOrganizationAction(this.organization).then(() => {
-        this.setNotification("Organization "+this.organization.metadata?.name +" deleted");
+        const org = this.organization as V1alpha1Organization;
+
+        this.setNotification("Organization "+ org.metadata?.name +" deleted");
         this.open = false;
       });
     },
