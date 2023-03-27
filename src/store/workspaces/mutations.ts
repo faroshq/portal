@@ -13,7 +13,6 @@ const mutations = {
   },
 
   [types.REMOVE_WORKSPACE](state: WorkspaceStateType, workspace: V1alpha1Workspace) {
-    console.log("REMOVE_WORKSPACE", workspace)
     state.workspaces.items = state.workspaces.items.filter((h) => h.metadata?.name !== workspace.metadata?.name);
   },
 

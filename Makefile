@@ -23,3 +23,11 @@ generate-k8s:
 generate-fix-perm:
 	sudo chown -R $(shell id -u):$(shell id -g) ./src/api/
 	chmod -R 755 ./src/api/faros
+
+build-image:
+	docker build -t quay.io/faroshq/portal:latest .
+
+run-image:
+	docker run -it -p 18080:80 --rm quay.io/faroshq/portal:latest
+
+

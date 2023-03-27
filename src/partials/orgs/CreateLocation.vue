@@ -64,183 +64,147 @@
               individual workspaces
             </p>
 
-            <v-row align="center">
-              <v-col class="d-flex" md="8" sm="12" xs="12">
-                <v-text-field
-                  v-model="newLocation.metadata.name"
-                  required
-                  label="Location name"
-                  hint="Location is unique name representing remote abstracted location"
-              ></v-text-field>
-              </v-col>
-            </v-row>
+            <div class="grid grid-cols-4 gap-4">
+              <div>
+                <input
+                type="text"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Location name"
+                v-model="newLocation.metadata.name"
+                required
+                label="Location name"
+                hint="Location is unique name representing remote abstracted location"
+                />
+              </div>
+            </div>
 
             <!-- General object labels -->
             <div class="mt-4">
-              <v-row align="center">
-                <v-col class="d-flex" md="8" sm="12" xs="12">
-                  <p>
-                    Labels are used to identify SyncTargets and are used to group SyncTargets
-                    using locations.
-                  </p>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    outlined
-                    class="primary--text"
-                    :disabled="loading"
-                    :loading="loading"
-                    @click="addLabel(labels)"
-                   >
-                   Add label
-                  </v-btn>
-                </v-col>
-              </v-row>
+              <p>
+                Labels are used to identify SyncTargets and are used to group SyncTargets
+                using locations.
+              </p>
+              <button
+                class="px-4 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                @click="addLabel(labels)"
+                >
+                Add label
+              </button>
               <template v-for="(label, i) in labels" :key="`labels-${i}`">
-                <v-row  >
-                  <v-col cols="" sm="3">
-                    <v-text-field
-                      v-model="label.key"
-                      label="Key"
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="" sm="4">
-                    <v-text-field
+                <div class="grid grid-cols-3 gap-1 py-2">
+                  <div>
+                    <input
+                        type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        v-model="label.key"
+                        label="Key"
+                        outlined
+                      />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       v-model="label.value"
                       label="Value"
                       outlined
-                  ></v-text-field>
-                  </v-col>
-                  <v-col sm="1">
-                    <div class="text-center">
-                      <button
-                        @click="deleteLabel(labels,i)"
-                      >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-red-700"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        >
-                        <path
-                          fill-rule="evenodd"
-                          d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                          clip-rule="evenodd"
-                        />
-                        </svg>
-                     </button>
-                    </div>
-                  </v-col>
-                </v-row>
-              </template>
-            </div>
+                    />
+                  </div>
+                <div>
+                  <button
+                    class="px-6 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                    @click="deleteLabel(labels, i)"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
 
-            <!-- Sync target selections labels -->
-            <div class="mt-4">
-              <v-row align="center">
-                <v-col class="d-flex" md="8" sm="12" xs="12">
-                  <p>
-                    SyncTarget Labels are used to select sync target instances
-                    from the SyncTarget pool and group them into a location.
-                  </p>
-                  <v-spacer></v-spacer>
-                  <v-btn
+          <!-- Sync target selections labels -->
+          <div class="mt-4">
+            <p>
+              SyncTarget Labels are used to select sync target instances
+              from the SyncTarget pool and group them into a location.
+            </p>
+            <button
+              class="px-4 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+              @click="addLabel(instanceSelector)"
+              >
+              Add label
+            </button>
+            <template v-for="(label, i) in instanceSelector" :key="`labels-${i}`">
+              <div class="grid grid-cols-3 gap-1 py-2">
+                <div>
+                  <input
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    v-model="label.key"
+                    label="Key"
                     outlined
-                    class="primary--text"
-                    :disabled="loading"
-                    :loading="loading"
-                    @click="addLabel(instanceSelector)"
-                   >
-                   Add label
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <template v-for="(label, i) in instanceSelector" :key="`labels-${i}`">
-                <v-row  >
-                  <v-col cols="" sm="3">
-                    <v-text-field
-                      v-model="label.key"
-                      label="Key"
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="" sm="4">
-                    <v-text-field
-                      v-model="label.value"
-                      label="Value"
-                      outlined
-                  ></v-text-field>
-                  </v-col>
-                  <v-col sm="1">
-                    <div class="text-center">
-                      <button
-                        @click="deleteLabel(instanceSelector,i)"
-                      >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-red-700"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        >
-                        <path
-                          fill-rule="evenodd"
-                          d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                          clip-rule="evenodd"
-                        />
-                        </svg>
-                     </button>
-                    </div>
-                  </v-col>
-                </v-row>
-              </template>
-            </div>
-
-            <!-- Sync target selections labels -->
-            <div class="mt-4">
-              <v-row align="center">
-                <v-col class="d-flex" md="8" sm="12" xs="12">
-                  <p>
-                    Location instance labels are used to select location instances
-                    from the available locations
-                  </p>
-                  <v-spacer></v-spacer>
-                </v-col>
-              </v-row>
-                <v-row  >
-                  <v-col cols="" sm="3">
-                    <v-text-field
-                      v-model="availableSelectorLabels.key"
-                      label="Key"
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="" sm="4">
-                    <vue3-tags-input
-                      :tags="availableSelectorLabels.values"
-                      @on-tags-changed="handleChangeTag"
-                      placeholder="selector values" />
-                  </v-col>
-              </v-row>
-              <v-row  >
-                  <v-col cols="" sm="6">
-                    <v-text-field
-                      v-model="availableSelectorLabels.description"
-                      label="Key"
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-
-            </div>
-
-            <div>
-              <div v-if=error class="text-red-500">
-                {{ error.message }}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    v-model="label.value"
+                    label="Value"
+                    outlined
+                  />
+                </div>
+              <div>
+                <button
+                  class="px-6 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                  @click="deleteLabel(instanceSelector, i)"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                </button>
               </div>
             </div>
+          </template>
+        </div>
+
+       <!-- Sync target selections labels -->
+        <div class="mt-4">
+            <p>
+              Location instance labels are used to select location instances
+               the available locations
+            </p>
+            <button
+              class="px-4 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+              @click="addLabel(availableSelectorLabels)"
+              >
+              Add label
+            </button>
+              <div class="grid grid-cols-3 gap-1 py-2">
+                <div>
+                  <input
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    v-model="availableSelectorLabels.key"
+                    label="Key"
+                    outlined
+                  />
+                </div>
+                <div>
+                  <vue3-tags-input
+                      :tags="availableSelectorLabels.values"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      @on-tags-changed="handleChangeTag"
+                      placeholder="selector values" />
+                </div>
+              <div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div v-if=error class="text-red-500">
+            {{ error.message }}
+          </div>
+        </div>
 
 
             <!--Footer-->

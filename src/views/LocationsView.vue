@@ -1,4 +1,4 @@
-<template>
+<template v-if=loaded>
   <!-- Breadcrumb -->
   <Breadcrumb breadcrumb="TODO" />
   <div>
@@ -8,7 +8,7 @@
   </div>
 
 
-  <div v-if=loaded>
+  <div>
     <!-- Page Content -->
     <CreateLocation :workspace="defaultWorkspace" />
   <div>
@@ -93,31 +93,45 @@
                         </p>
                       </div>
                   </td>
-                  <td
-                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
-                  >
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ loc.metadata?.labels }}
-                    </p>
+
+                  <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                    <div v-for="(key, label) in loc.metadata?.labels" :key="key">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {{ key }} : {{ label }}
+                      </span>
+                    </div>
                   </td>
-                  <td
-                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
-                  >
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ loc.spec?.instanceSelector }}
-                    </p>
+
+                  <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                    <div v-for="(key, label) in loc.spec?.instanceSelector.matchLabels" :key="key">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {{ key }} : {{ label }}
+                      </span>
+                    </div>
                   </td>
-                  <td
-                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
-                  >
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ loc.spec?.availableSelectorLabels }}
-                    </p>
+
+                  <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                    <div v-for="(rootKey, label) in loc.spec?.availableSelectorLabels" :key="label">
+                      {{  rootKey.description }}
+                      <div v-for ="(key) in rootKey.values" :key="key">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {{ rootKey.key }} : {{ key }}
+                      </span>
+                      </div>
+                    </div>
                   </td>
+
                   <td
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
-                    <span class="relative">{{ loc.status }}</span>
+                    <span class="relative">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Instances: {{  loc.status?.instances }}
+                      </span>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Available instances: {{  loc.status?.availableInstances }}
+                      </span>
+                    </span>
 
                   </td>
                   <td
@@ -217,7 +231,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.workspace = this.defaultWorkspace
+    this.workspace = this.getWorkspace()
     this.useWorkspaceActions(this.workspace).then(() => {
       this.loaded = true
     })
@@ -225,6 +239,7 @@ export default defineComponent({
 
   computed: {
     ...mapGetters("workspaceModule", {
+      workspaces: "workspaces",
       defaultWorkspace: "defaultWorkspace",
     }),
     ...mapGetters("locationModule", {
@@ -245,13 +260,20 @@ export default defineComponent({
     ...mapActions("locationModule", [
       "deleteLocationActions"
     ]),
+    getWorkspace(){
+      for (let workspace of this.workspaces.items) {
+        if (workspace.metadata?.name == this.selectedWorkspaceName) {
+          return workspace
+        }
+      }
+    },
     deleteLocation(location: V1alpha1Location){
       const wl = {
         workspace: this.defaultWorkspace,
         location: location,
       }
       this.deleteLocationActions(wl)
-    }
+    },
   }
 })
 

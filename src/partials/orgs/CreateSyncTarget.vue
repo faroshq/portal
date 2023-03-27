@@ -59,73 +59,68 @@
             </div>
 
             <!--Body-->
-            <p>
+            <p class="flex justify-end pt-2 py-2" >
               SyncTargets represents a physical kubernetes cluster which acts as a source or destination for sync operations.
               It is provider for compute resources and storage.
             </p>
 
             <!-- SyncTarget name -->
-            <v-row align="center">
-              <v-col class="d-flex" md="8" sm="12" xs="12">
-                <v-text-field
-                  v-model="newSyncTarget.metadata.name"
-                  required
-                  label="SyncTarget name"
-                  hint="SyncTarget is unique name representing remote k8s cluster"
-              ></v-text-field>
-              </v-col>
-            </v-row>
+            <div class="grid grid-cols-4 gap-4">
+              <div>
+                <input
+                type="text"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Sync target name"
+                v-model="newSyncTarget.metadata.name"
+                required
+                label="SyncTarget name"
+                hint="SyncTarget is unique name representing remote k8s cluster"
+                />
+              </div>
+            </div>
 
             <div class="mt-4">
-              <v-row align="center">
-                <v-col class="d-flex" md="8" sm="12" xs="12">
-                  <p>
-                    Labels are used to identify SyncTargets and are used to group SyncTargets
-                    using locations.
-                  </p>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    outlined
-                    class="primary--text"
-                    :disabled="loading"
-                    :loading="loading"
-                    @click="addLabel(labels)"
-                   >
-                   Add label
-                  </v-btn>
-                </v-col>
-              </v-row>
+              <p>
+                Labels are used to identify SyncTargets and are used to group SyncTargets
+                using locations.
+              </p>
+              <button
+                class="px-4 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                @click="addLabel(labels)"
+                >
+                Add label
+              </button>
               <template v-for="(label, i) in labels" :key="`labels-${i}`">
-                <v-row  >
-                  <v-col cols="" sm="3">
-                    <v-text-field
-                      v-model="label.key"
-                      label="Key"
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="" sm="4">
-                    <v-text-field
+                <div class="grid grid-cols-3 gap-1 py-2">
+                  <div>
+                    <input
+                        type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        v-model="label.key"
+                        label="Key"
+                        outlined
+                      />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       v-model="label.value"
                       label="Value"
                       outlined
-                  ></v-text-field>
-                  </v-col>
-                  <v-col sm="1">
-                    <div class="text-center">
-                      <v-btn
-                        fab
-                        icon
-                        @click="deleteLabel(i)"
-                      >
-                      <v-icon>mdi-delete</v-icon>
-                     </v-btn>
-                    </div>
-                  </v-col>
-                </v-row>
-              </template>
-            </div>
+                    />
+                  </div>
+                <div>
+                  <button
+                    class="px-6 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                    @click="deleteLabel(i)"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
 
             <div>
               <div v-if=error class="text-red-500">
@@ -163,7 +158,7 @@ import { V1alpha1Workspace } from "@/api/faros";
 import { V1alpha1SyncTarget } from "@/api/kcp";
 import { WorkspacedSyncTarget } from "@/store/synctargets/types";
 
-  export default defineComponent({
+export default defineComponent({
     name: "CreateSyncTarget",
 
     props: {
@@ -248,4 +243,5 @@ import { WorkspacedSyncTarget } from "@/store/synctargets/types";
     .md\:max-w-md {
       max-width: 75rem;
     }
+
   </style>

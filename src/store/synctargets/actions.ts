@@ -1,10 +1,12 @@
 import * as types from "./types";
 import { Commit } from 'vuex';
 import { V1alpha1SyncTargetList } from "@/api/kcp";
+import { V1ConfigMapList } from "@/api/k8s";
 import {
   listSyncTargets,
   createSyncTarget,
   deleteSyncTarget,
+  listSyncTargetsBootstrapConfigs,
 } from "@/services/synctargetService";
 
 import {V1alpha1Workspace, } from "@/api/faros";
@@ -37,6 +39,16 @@ export function deleteSyncTargetActions({ commit }: { commit: Commit}, wl: types
     then(() => {
       commit(types.REMOVE_SYNCTARGET, wl.synctarget)
     }).
+    catch((e: any) => commit(types.ERROR_SYNCTARGET, e)).
+    finally(() => commit(types.LOADING_SYNCTARGETS, false));
+}
+
+
+export function listSyncTargetsBootstrapConfigsActions({ commit }: { commit: Commit}, workspace: V1alpha1Workspace) {
+  commit(types.LOADING_SYNCTARGETS, true);
+  commit(types.ERROR_SYNCTARGET, null)
+  return listSyncTargetsBootstrapConfigs(workspace).
+    then((value: V1ConfigMapList) => commit(types.SET_SYNCTARGETS_BOOTSTRAP_CONFIGS, value)).
     catch((e: any) => commit(types.ERROR_SYNCTARGET, e)).
     finally(() => commit(types.LOADING_SYNCTARGETS, false));
 }

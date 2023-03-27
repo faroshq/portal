@@ -59,7 +59,7 @@
         </div>
 
           <!--Body-->
-          <p>
+          <p class="px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
             Delete workspace? This action cannot be undone and will delete all
             associated resources and data.
           </p>
@@ -68,8 +68,9 @@
           <div class="relative mt-2 rounded-md shadow-sm">
             <input
               type="text"
+              disabled
               v-model="currentWorkspaceName"
-              class="w-full px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+              class="px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
           />
 
             <div>
@@ -80,7 +81,7 @@
 
 
           <!--Footer-->
-          <div class="flex justify-end pt-2">
+          <div class="flex justify-end pt-2 px-12 py-2">
             <button
               @click="open = false"
               class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"

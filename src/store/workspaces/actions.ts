@@ -45,11 +45,6 @@ export function useWorkspaceActions({ commit }: { commit: Commit}, workspace: V1
 
 // startupWorkspaceLoad is called when the application starts up. It will load all the workspaces for all the organizations
 export function loadAllWorkspaces({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
-  console.log("getWorkspacesAction")
-  console.log(organization)
     commit(types.LOADING_WORKSPACE, true);
-    getWorkspaces(organization.metadata?.name as string).
-      then((value) => commit(types.SET_WORKSPACES, value)).
-      catch((e) => commit(types.ERROR_WORKSPACE, e.body)).
-      finally(() => commit(types.LOADING_WORKSPACE, false));
+    return getWorkspacesAction({commit}, organization.metadata?.name)
 }

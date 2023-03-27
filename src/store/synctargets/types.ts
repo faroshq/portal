@@ -7,6 +7,7 @@ export const ADD_SYNCTARGET = "ADD_SYNCTARGET";
 export const UPDATE_SYNCTARGET = "UPDATE_SYNCTARGET";
 export const ERROR_SYNCTARGET = "ERROR_SYNCTARGET";
 export const SET_SYNCTARGETS = "SET_SYNCTARGETS";
+export const SET_SYNCTARGETS_BOOTSTRAP_CONFIGS = "SET_SYNCTARGETS_BOOTSTRAP_CONFIGS";
 
 export type WorkspacedSyncTarget = {
     workspace: V1alpha1Workspace;
