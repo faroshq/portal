@@ -182,6 +182,7 @@ import { Condition } from "@/api/kcp/models/Conditions"
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import { V1alpha1SyncTarget } from '@/api/kcp';
+import { V1alpha1Workspace } from '@/api/faros';
 
 
 export default defineComponent({
@@ -195,12 +196,15 @@ export default defineComponent({
 
   data() {
     return {
-      workspace: {},
+      workspace: {} as V1alpha1Workspace,
       loaded: false,
     }
   },
-  mounted() {
-    this.workspace = this.getWorkspace()
+  async mounted() {
+    while (this.workspace != undefined && !this.workspace.apiVersion) {
+      await this.sleep(1000)
+      this.workspace = this.getWorkspace()
+    }
     this.useWorkspaceActions(this.workspace).then(() => {
       this.loaded = true
     })
@@ -278,6 +282,9 @@ export default defineComponent({
           }
         }
       }
+    },
+    sleep(ms: number) {
+      return new Promise(resolve => setTimeout(resolve, ms));
     },
   }
 })

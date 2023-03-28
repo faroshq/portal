@@ -9,5 +9,6 @@ const getters = {
   },
   loading: (state: OrganizationStateType) => state.loading,
   error: (state: OrganizationStateType) => state.error,
+  started: (state: OrganizationStateType) => state.started,
 };
 export default getters;

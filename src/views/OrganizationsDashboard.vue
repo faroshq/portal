@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="started">
     <Breadcrumb breadcrumb="" />
     <!--Banner get you to github repo-->
     <Banner />
@@ -333,6 +333,7 @@ export default defineComponent({
     ...mapGetters("organizationModule", {
         organizations: "organizations",
         defaultOrganization: "defaultOrganization",
+        started: "started",
         error: "error",
         loading: "loading",
     }),

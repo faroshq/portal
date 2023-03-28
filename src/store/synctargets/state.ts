@@ -8,6 +8,8 @@ export type SyncTargetStateType = {
   bootstrapConfigMaps: V1ConfigMapList;
   error: string;
   loading: boolean;
+  // started is true if the sync targets have been loaded at least once
+  started: boolean;
 };
 
 const state: SyncTargetStateType = {
@@ -15,6 +17,7 @@ const state: SyncTargetStateType = {
   bootstrapConfigMaps : { items: [] },
   error: "",
   loading: false,
+  started: false,
 };
 
 export default state;

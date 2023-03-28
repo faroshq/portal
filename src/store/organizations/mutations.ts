@@ -32,6 +32,10 @@ const mutations = {
 
   [types.SET_ALL_ORGANIZATIONS](state: OrganizationStateType, organizations: V1alpha1OrganizationList) {
     state.organizations = organizations;
+  },
+
+  [types.SET_STARTED_ORGANIZATION](state: OrganizationStateType, started: boolean) {
+    state.started = started;
   }
 };
 

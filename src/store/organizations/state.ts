@@ -7,6 +7,8 @@ export type OrganizationStateType = {
   defaultOrganization: V1alpha1Organization;
   error: string;
   loading: boolean;
+  // started is true if the organizations have been loaded at least once
+  started: boolean;
 };
 
 const state: OrganizationStateType = {
@@ -14,6 +16,7 @@ const state: OrganizationStateType = {
   error: "",
   defaultOrganization: {},
   loading: false,
+  started: false,
 };
 
 export default state;

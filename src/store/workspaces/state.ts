@@ -9,6 +9,8 @@ export type WorkspaceStateType = {
   defaultWorkspace: V1alpha1Workspace;
   error: string;
   loading: boolean;
+  // started is true if the workspaces have been loaded at least once
+  started: boolean;
 };
 
 const state: WorkspaceStateType = {
@@ -16,6 +18,7 @@ const state: WorkspaceStateType = {
   defaultWorkspace: {},
   error: "",
   loading: false,
+  started: false,
 };
 
 export default state;

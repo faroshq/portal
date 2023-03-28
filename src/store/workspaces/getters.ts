@@ -9,5 +9,6 @@ const getters = {
   },
   loading: (state: WorkspaceStateType) => state.loading,
   error: (state: WorkspaceStateType) => state.error,
+  started: (state: WorkspaceStateType) => state.started,
 };
 export default getters;

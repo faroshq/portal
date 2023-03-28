@@ -31,6 +31,11 @@ const mutations = {
   [types.SET_LOCATIONS](state: LocationStateType, locations: V1alpha1LocationList) {
     state.locations = locations;
   },
+
+  [types.SET_STARTED_LOCATIONS](state: LocationStateType, started: boolean) {
+    state.started = started;
+  }
+
 };
 
 export default mutations;

@@ -1,9 +1,10 @@
-import idsrvAuth from '../oauthclient/idsrvAuth';
 import * as k8s from "@/api/k8s/";
 import { KubernetesObject } from "./types";
 
+import { store } from "@/store";
 export class KubernetesObjectApi {
     private client: k8s.CustomObjectsApi;
+    private token: string;
 
     constructor(serverURL: string) {
       const server = new k8s.ServerConfiguration<{  }>(serverURL, {  })
@@ -11,7 +12,7 @@ export class KubernetesObjectApi {
       const authConfigK8S: k8s.AuthMethodsConfiguration = {
         default: {
             applySecurityAuthentication: (context: k8s.RequestContext) => {
-                context.setHeaderParam("Authorization", "Bearer " + idsrvAuth.accessToken);
+                context.setHeaderParam("Authorization", "Bearer " + store.state.oidcStore.access_token);
             },
             getName: () => "default",
           },
@@ -46,6 +47,7 @@ export class KubernetesObjectApi {
 
 export class CoreV1Api {
   private client: k8s.CoreV1Api;
+  private token: string;
 
   constructor(serverURL: string) {
     const server = new k8s.ServerConfiguration<{  }>(serverURL, {  })
@@ -53,7 +55,7 @@ export class CoreV1Api {
     const authConfigK8S: k8s.AuthMethodsConfiguration = {
       default: {
           applySecurityAuthentication: (context: k8s.RequestContext) => {
-              context.setHeaderParam("Authorization", "Bearer " + idsrvAuth.accessToken);
+              context.setHeaderParam("Authorization", "Bearer " + store.state.oidcStore.access_token);
           },
           getName: () => "default",
         },

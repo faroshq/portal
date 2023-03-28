@@ -6,5 +6,6 @@ const getters = {
   },
   loading: (state: LocationStateType) => state.loading,
   error: (state: LocationStateType) => state.error,
+  started: (state: LocationStateType) => state.started,
 };
 export default getters;

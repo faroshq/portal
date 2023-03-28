@@ -34,7 +34,10 @@ export function getWorkspacesAction({ commit }: { commit: Commit}, orgName: stri
   return getWorkspaces(orgName)
     .then((value) => commit(types.SET_WORKSPACES, value))
     .catch((e) => commit(types.ERROR_WORKSPACE, e))
-    .finally(() => commit(types.LOADING_WORKSPACE, false));
+    .finally(() => {
+      commit(types.LOADING_WORKSPACE, false);
+      commit(types.SET_STARTED_WORKSPACE, true);
+    })
 }
 
 export function useWorkspaceActions({ commit }: { commit: Commit}, workspace: V1alpha1Workspace) {

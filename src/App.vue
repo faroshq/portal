@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loaded" id="app">
+  <div v-if="hasAccess" id="app">
     <div class="flex flex-col h-screen">
       <component :is="layout">
         <router-view :key="$route.fullPath" />
@@ -37,6 +37,9 @@ export default defineComponent({
         error: "error",
         workspacesloading: "loading",
     }),
+    ...mapGetters('oidcStore', {
+       oidcIsAuthenticated: "oidcIsAuthenticated",
+    }),
   },
 
   methods: {
@@ -48,14 +51,12 @@ export default defineComponent({
     ...mapActions("workspaceModule", [
       "loadAllWorkspaces",
     ]),
-
-  },
-
-    // This is mostly to load localstore into vuex. Actions and mutators should
-    // be used to change the state of the store and localstore for refreshes.
-    // We load data into store and then use the store
-    mounted() {
-      console.log("App mounted")
+    ...mapActions('oidcStore', [
+      'authenticateOidcPopup',
+      'removeOidcUser'
+    ]),
+    userLoaded: function (e: any) {
+      console.log("user loaded")
       this.getOrganizationsAction().then(() => {
         // no orgs - just return
         if (this.organizations.items.length == 0) {
@@ -77,6 +78,37 @@ export default defineComponent({
           }
         }
       })
+    },
+    oidcError: function (e: any) {
+      console.log('I am listening to the oidc oidcError event in vuex-oidc', e.detail)
+    },
+    automaticSilentRenewError: function (e: any) {
+      console.log('I am listening to the automaticSilentRenewError event in vuex-oidc', e.detail)
+    },
+    signOut: function () {
+      this.removeOidcUser().then(() => {
+        this.$router.push('/')
+      })
+    },
+    hasAccess: function () {
+      return this.oidcIsAuthenticated || this.$route.meta.isPublic
+    }
+  },
+
+    // This is mostly to load localstore into vuex. Actions and mutators should
+    // be used to change the state of the store and localstore for refreshes.
+    // We load data into store and then use the store
+    mounted() {
+      console.log("App mounted")
+
+      window.addEventListener('vuexoidc:userLoaded', this.userLoaded)
+      window.addEventListener('vuexoidc:oidcError', this.oidcError)
+      window.addEventListener('vuexoidc:automaticSilentRenewError', this.automaticSilentRenewError)
+  },
+  unmounted () {
+    window.removeEventListener('vuexoidc:userLoaded', this.userLoaded)
+    window.removeEventListener('vuexoidc:oidcError', this.oidcError)
+    window.removeEventListener('vuexoidc:automaticSilentRenewError', this.automaticSilentRenewError)
   },
 
   setup() {

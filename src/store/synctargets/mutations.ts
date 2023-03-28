@@ -36,7 +36,12 @@ const mutations = {
 
   [types.SET_SYNCTARGETS_BOOTSTRAP_CONFIGS](state: SyncTargetStateType, configs: V1ConfigMapList) {
     state.bootstrapConfigMaps = configs;
+  },
+
+  [types.SET_STARTED_SYNCTARGETS](state: SyncTargetStateType, started: boolean) {
+    state.started = started;
   }
+
 };
 
 export default mutations;

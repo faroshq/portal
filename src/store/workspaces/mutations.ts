@@ -37,6 +37,10 @@ const mutations = {
     state.defaultWorkspace = workspace;
   },
 
+  [types.SET_STARTED_WORKSPACE](state: WorkspaceStateType, started: boolean) {
+    state.started = started;
+  }
+
 };
 
 export default mutations;

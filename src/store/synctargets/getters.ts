@@ -9,5 +9,6 @@ const getters = {
   },
   loading: (state: SyncTargetStateType) => state.loading,
   error: (state: SyncTargetStateType) => state.error,
+  started: (state: SyncTargetStateType) => state.started,
 };
 export default getters;

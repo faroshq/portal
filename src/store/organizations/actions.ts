@@ -33,10 +33,17 @@ export function getOrganizationsAction({ commit }: { commit: Commit}) {
   return getOrganizations()
     .then((value) => commit(types.SET_ALL_ORGANIZATIONS, value))
     .catch((e) =>  commit(types.ERROR_ORGANIZATION, e.body))
-    .finally(() => commit(types.LOADING_ORGANIZATION, false));
+    .finally(() => {
+          commit(types.LOADING_ORGANIZATION, false);
+          commit(types.SET_STARTED_ORGANIZATION, true);
+    })
 }
 
 export function useOrganizationActions({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
   commit(types.SET_DEFAULT_ORGANIZATION, organization);
   store.dispatch("workspaceModule/loadAllWorkspaces", organization);
+ }
+
+ export function setStartedAction({ commit }: { commit: Commit}, started: boolean) {
+  commit(types.SET_STARTED_ORGANIZATION, started);
  }
