@@ -1,4 +1,4 @@
-<template>
+<template v-if=loaded>
   <!-- Breadcrumb -->
   <Breadcrumb breadcrumb="TODO" />
   <div>
@@ -8,7 +8,7 @@
   </div>
 
 
-  <div v-if=loaded>
+  <div >
     <!-- Page Content -->
     <CreateSyncTarget :workspace="defaultWorkspace" />
   <div>
@@ -86,14 +86,16 @@
                   <td
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ st.metadata?.labels }}
-                    </p>
+                    <div v-for="(key, label) in getFilteredLabels(st.metadata?.labels)" :key="key">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {{ key }} : {{ label }}
+                      </span>
+                    </div>
                   </td>
                   <td
                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                   >
-                    <span class="relative">{{ st.status }}</span>
+                    <span class="relative">{{ getStatus(st) }}</span>
 
                   </td>
                   <td
@@ -101,7 +103,7 @@
                   >
                     <div class="flex justify-around">
                       <span class="text-yellow-500 flex justify-center">
-                        <a href="#" class="mx-2 px-2 rounded-md"
+                       <!-- <a href="#" class="mx-2 px-2 rounded-md"
                           ><svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-5 w-5 text-green-700"
@@ -117,10 +119,10 @@
                               clip-rule="evenodd"
                             />
                           </svg>
-                        </a>
-                          <button
+                        </a> -->
+                        <button
                           class="mx-2 px-2 rounded-md"
-                          @click="deleteSynctarget(st)"
+                          @click="deleteSyncTarget(st)"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +136,8 @@
                                 clip-rule="evenodd"
                               />
                             </svg>
-                          </button>
+                        </button>
+                        <BootstrapConfig :syncTarget=st></BootstrapConfig>
                       </span>
                     </div>
                   </td>
@@ -174,9 +177,12 @@
 <script lang="ts">
 import Breadcrumb from '../partials/Breadcrumb.vue'
 import CreateSyncTarget from "../partials/orgs/CreateSyncTarget.vue";
+import BootstrapConfig from "../partials/kubeconfig/BootstrapConfig.vue";
+import { Condition } from "@/api/kcp/models/Conditions"
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import { V1alpha1SyncTarget } from '@/api/kcp';
+
 
 export default defineComponent({
   name: "SyncTargetView",
@@ -184,6 +190,7 @@ export default defineComponent({
   components: {
     Breadcrumb,
     CreateSyncTarget,
+    BootstrapConfig
 },
 
   data() {
@@ -193,7 +200,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.workspace = this.defaultWorkspace
+    this.workspace = this.getWorkspace()
     this.useWorkspaceActions(this.workspace).then(() => {
       this.loaded = true
     })
@@ -202,6 +209,7 @@ export default defineComponent({
   computed: {
     ...mapGetters("workspaceModule", {
       defaultWorkspace: "defaultWorkspace",
+      workspaces: "workspaces",
     }),
     ...mapGetters("synctargetModule", {
       synctargets: "synctargets",
@@ -219,15 +227,58 @@ export default defineComponent({
       "useWorkspaceActions",
     ]),
     ...mapActions("synctargetModule", [
-      "deleteSyncTargetActions"
+      "deleteSyncTargetActions",
     ]),
-    deleteSynctarget(synctarget: V1alpha1SyncTarget){
+    deleteSyncTarget(synctarget: V1alpha1SyncTarget){
       const wl = {
         workspace: this.defaultWorkspace,
         synctarget: synctarget,
       }
       this.deleteSyncTargetActions(wl)
-    }
+    },
+    getWorkspace(){
+      for (let workspace of this.workspaces.items) {
+        if (workspace.metadata?.name == this.selectedWorkspaceName) {
+          return workspace
+        }
+      }
+    },
+    getFilteredLabels(labels: { [key: string]: string; }){
+      let removeList = [
+        'claimed.internal.apis.kcp.io',
+        'internal.workload.kcp.io/key',
+        'synctarget.workload.faros.sh/bootstrap',
+      ]
+
+      let filteredLabels: { [key: string]: string; } = {}
+      for (const key of Object.keys(labels)) {
+        let found = false
+        for (const removeKey in removeList){
+          if (key.includes(removeList[removeKey])){
+            found = true
+          }
+        }
+        if (!found){
+         filteredLabels = {...filteredLabels, [key]: labels[key]}
+        }
+      }
+      return filteredLabels
+    },
+    getStatus(synctarget: V1alpha1SyncTarget){
+      const conditions = synctarget.status?.conditions as Condition[]
+      if (conditions === undefined){
+        return 'Unknown'
+      }
+      for (const condition of conditions){
+        if (condition.type === 'Ready'){
+          if (condition.status === 'True'){
+            return 'Ready'
+          } else {
+            return 'Not Ready'
+          }
+        }
+      }
+    },
   }
 })
 

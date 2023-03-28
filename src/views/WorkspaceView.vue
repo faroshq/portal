@@ -2,12 +2,14 @@
   <!-- Breadcrumb -->
   <Breadcrumb breadcrumb="TODO" />
     <div v-if=loaded>
-      <!-- Page Content -->
-    <KubeConfig :workspace="getWorkspace()" />
-
-    <DeleteWorkspace :workspace="getWorkspace()" />
-
-
+      <div class="grid grid-cols-2 gap-0">
+        <div>
+          <KubeConfig :workspace="getWorkspace()" />
+        </div>
+        <div>
+          <DeleteWorkspace :workspace="getWorkspace()" />
+        </div>
+      </div>
       <!-- <CreateLocation :workspace="getWorkspace()" /> -->
     <div>
   </div>
