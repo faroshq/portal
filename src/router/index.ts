@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
-import Forms from "../views/Forms.vue";
-import Tables from "../views/Tables.vue";
-import UIElements from "../views/UIElements.vue";
+import OrganizationsDashboard from "../views/OrganizationsDashboard.vue";
 //import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
-import Modal from "../views/Modal.vue";
-import Chart from "../views/ChartView.vue";
-import Card from "../views/CardView.vue";
-import Blank from "../views/BlankView.vue";
 import NotFound from "../views/NotFound.vue";
-import Workspace from "../views/Workspace.vue";
-import idsrvAuth from '../oauthclient/idsrvAuth';
+import WorkspaceView from "../views/WorkspaceView.vue";
+import LocationsView from "../views/LocationsView.vue";
+import SyncTargetView from "../views/SyncTargetView.vue";
+import OidcCallback from "../views/OidcCallback.vue";
+import OidcPopupCallback from "../views/OidcPopupCallback.vue";
+import OidcCallbackError from "../views/OidcCallbackError.vue";
+
+import { vuexOidcCreateRouterMiddleware } from 'vuex-oidc'
+import  { store } from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
  // {
@@ -22,64 +22,51 @@ const routes: Array<RouteRecordRaw> = [
  // },
   {
     path: "/",
-    name: "Dashboard",
-    component: Dashboard,
-    meta: {
-      authName: idsrvAuth.authName
-    },
+    name: "OrganizationsDashboard",
+    component: OrganizationsDashboard,
   },
   {
     path: "/logout",
     name: "Logout",
     component: Logout,
-    meta: {
-      authName: idsrvAuth.authName
-    },
   },
   {
     path: "/organizations/:organization/workspaces/:workspace",
-    name: "Workspace",
-    component: Workspace,
+    name: "WorkspaceView",
+    component: WorkspaceView,
+  },
+  {
+    path: "/organizations/:organization/workspaces/:workspace/locations",
+    name: "LocationsView",
+    component: LocationsView,
+  },
+  {
+    path: "/organizations/:organization/workspaces/:workspace/synctargets",
+    name: "SyncTargetView",
+    component: SyncTargetView,
+  },
+  {
+    path: '/oidc-callback', // Needs to match redirectUri in you oidcSettings
+    name: 'oidcCallback',
+    component: OidcCallback
+  },
+  {
+    path: '/oidc-popup-callback', // Needs to match popupRedirectUri in you oidcSettings
+    name: 'oidcPopupCallback',
+    component: OidcPopupCallback
+  },
+  {
+    path: '/oidc-callback-error', // Needs to match redirect_uri in you oidcSettings
+    name: 'oidcCallbackError',
+    component: OidcCallbackError,
     meta: {
-      authName: idsrvAuth.authName
-    },
+      isPublic: true
+    }
   },
   {
-    path: "/forms",
-    name: "Forms",
-    component: Forms,
+    path: "/:pathMatch(.*)*",
+    component: NotFound
   },
-  {
-    path: "/cards",
-    name: "Cards",
-    component: Card,
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    component: Tables,
-  },
-  {
-    path: "/ui-elements",
-    name: "UIElements",
-    component: UIElements,
-  },
-  {
-    path: "/modal",
-    name: "Modal",
-    component: Modal,
-  },
-  {
-    path: "/charts",
-    name: "Chart",
-    component: Chart,
-  },
-  {
-    path: "/blank",
-    name: "Blank",
-    component: Blank,
-  },
-  { path: "/:pathMatch(.*)*", component: NotFound },
 ];
 
 const router = createRouter({
@@ -87,6 +74,6 @@ const router = createRouter({
   routes,
 });
 
-idsrvAuth.useRouter(router)
+router.beforeEach(vuexOidcCreateRouterMiddleware(store, "oidcStore"))
 
 export default router;

@@ -1,0 +1,374 @@
+<template>
+  <div class="inline px-6 py-2 mt-3">
+
+      <button
+        @click="open = true"
+        class="px-6 py-2 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+      >
+        Create Location
+      </button>
+
+      <div
+        :class="`modal ${
+          !open && 'opacity-0 pointer-events-none'
+        } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`"
+      >
+        <div
+          @click="open = false"
+          class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay"
+        ></div>
+
+        <div
+          class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md"
+        >
+          <div
+            class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close"
+          >
+            <svg
+              class="text-white fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+            >
+              <path
+                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"
+              />
+            </svg>
+            <span class="text-sm">(Esc)</span>
+          </div>
+
+          <!-- Add margin if you want to see some of the overlay behind the modal-->
+          <div class="px-6 py-4 text-left modal-content">
+            <!--Title-->
+            <div class="flex items-center justify-between pb-3">
+              <p class="text-2xl font-bold">Locations</p>
+              <div class="z-50 cursor-pointer modal-close" @click="open = false">
+                <svg
+                  class="text-black fill-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <!--Body-->
+            <p>
+              Location allows you to allocate physical clusters and allocate them to
+              individual workspaces
+            </p>
+
+            <div class="grid grid-cols-4 gap-4">
+              <div>
+                <input
+                type="text"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Location name"
+                v-model="newLocation.metadata.name"
+                required
+                label="Location name"
+                hint="Location is unique name representing remote abstracted location"
+                />
+              </div>
+            </div>
+
+            <!-- General object labels -->
+            <div class="mt-4">
+              <p>
+                Labels are used to identify SyncTargets and are used to group SyncTargets
+                using locations.
+              </p>
+              <button
+                class="px-4 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                @click="addLabel(labels)"
+                >
+                Add label
+              </button>
+              <template v-for="(label, i) in labels" :key="`labels-${i}`">
+                <div class="grid grid-cols-3 gap-1 py-2">
+                  <div>
+                    <input
+                        type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        v-model="label.key"
+                        label="Key"
+                        outlined
+                      />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      v-model="label.value"
+                      label="Value"
+                      outlined
+                    />
+                  </div>
+                <div>
+                  <button
+                    class="px-6 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                    @click="deleteLabel(labels, i)"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <!-- Sync target selections labels -->
+          <div class="mt-4">
+            <p>
+              SyncTarget Labels are used to select sync target instances
+              from the SyncTarget pool and group them into a location.
+            </p>
+            <button
+              class="px-4 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+              @click="addLabel(instanceSelector)"
+              >
+              Add label
+            </button>
+            <template v-for="(label, i) in instanceSelector" :key="`labels-${i}`">
+              <div class="grid grid-cols-3 gap-1 py-2">
+                <div>
+                  <input
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    v-model="label.key"
+                    label="Key"
+                    outlined
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    v-model="label.value"
+                    label="Value"
+                    outlined
+                  />
+                </div>
+              <div>
+                <button
+                  class="px-6 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                  @click="deleteLabel(instanceSelector, i)"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                </button>
+              </div>
+            </div>
+          </template>
+        </div>
+
+       <!-- Sync target selections labels -->
+        <div class="mt-4">
+            <p>
+              Location instance labels are used to select location instances
+               the available locations
+            </p>
+            <button
+              class="px-4 py-2 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+              @click="addLabel(availableSelectorLabels)"
+              >
+              Add label
+            </button>
+              <div class="grid grid-cols-3 gap-1 py-2">
+                <div>
+                  <input
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    v-model="availableSelectorLabels.key"
+                    label="Key"
+                    outlined
+                  />
+                </div>
+                <div>
+                  <vue3-tags-input
+                      :tags="availableSelectorLabels.values"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      @on-tags-changed="handleChangeTag"
+                      placeholder="selector values" />
+                </div>
+              <div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div v-if=error class="text-red-500">
+            {{ error.message }}
+          </div>
+        </div>
+
+
+            <!--Footer-->
+            <div class="flex justify-end pt-2">
+              <button
+                @click="open = false"
+                class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
+              >
+                Close
+              </button>
+              <button
+               @click="onSubmit"
+                class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+              >
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+<script lang="ts">
+
+import { defineComponent, } from "vue";
+import { mapGetters, mapActions } from "vuex";
+import { V1alpha1Workspace } from "@/api/faros";
+import { WorkspacedLocation } from "@/store/locations/types";
+import { V1alpha1Location } from "@/api/kcp";
+import { V1alpha1GroupVersionResource } from "@/api/kcp/models/V1alpha1LocationSpec";
+import Vue3TagsInput from 'vue3-tags-input';
+
+export default defineComponent({
+    name: "CreateLocation",
+    components: {
+      Vue3TagsInput,
+    },
+
+    props: {
+      workspace: {
+        type: V1alpha1Workspace,
+        required: true,
+      },
+    },
+
+    data () {
+      return {
+        open: false,
+        // placeholders for creation
+        labels: [
+          {
+            key: "",
+            value: "",
+          },
+        ],
+        // instanceSelector is used to identify SyncTargets and are used to group SyncTargets using locations.
+        instanceSelector:[
+          {
+            key: "",
+            value: "",
+          },
+        ],
+        // availableSelectorLabels is used to identify location when targeting locations synctargets
+        availableSelectorLabels:{
+            key: "",
+            values: [],
+            description:  "",
+        },
+        newLocation: {
+          metadata: {
+            name: "",
+            labels: {},
+          },
+          spec: {},
+        } as V1alpha1Location,
+      }
+    },
+
+    computed: {
+      ...mapGetters("locationModule", {
+        error: "error",
+        loading: "loading",
+      }),
+    },
+
+    methods: {
+      ...mapActions("locationModule", [
+        "createLocationActions",
+      ]),
+      ...mapActions("notificationModule", [
+        "setNotification",
+      ]),
+
+      onSubmit() {
+        let payload: WorkspacedLocation
+        payload = {} as WorkspacedLocation
+        payload.location = this.newLocation
+        payload.workspace = this.workspace
+
+        // defaulting for undefined. TODO: move to a better place
+        const labels: { [key: string] : string; } = {};
+        const syncTargetLabels: { [key: string] : string; } = {};
+        payload.location.metadata.labels = labels
+        payload.location.spec.instanceSelector = {}
+        payload.location.spec.instanceSelector.matchLabels = syncTargetLabels
+        // TODO: hardcoded for now
+        payload.location.spec.resource = {
+          group: "workload.kcp.io",
+          resource: "synctargets",
+          version: "v1alpha1",
+
+        } as V1alpha1GroupVersionResource
+        // convert to payload
+        for (let i = 0; i < this.labels.length; i++) {
+          if (this.labels[i].key != "") {
+            payload.location.metadata.labels[this.labels[i].key] = this.labels[i].value
+          }
+        }
+
+        for (let i = 0; i < this.instanceSelector.length; i++) {
+          if (this.instanceSelector[i].key != "") {
+            payload.location.spec.instanceSelector.matchLabels[this.instanceSelector[i].key] = this.instanceSelector[i].value
+          }
+        }
+
+        // convert locationSelector to payload
+        if (payload.location.spec.availableSelectorLabels == undefined) {
+          payload.location.spec.availableSelectorLabels = []
+        }
+
+        payload.location.spec.availableSelectorLabels.push({
+          key: this.availableSelectorLabels.key,
+          values: this.availableSelectorLabels.values,
+          description: this.availableSelectorLabels.description,
+        })
+
+        this.createLocationActions(payload).then(() => {
+          if (this.error == "") {
+            this.setNotification("Location "+payload.location.metadata?.name+" created successfully")
+            this.open = false;
+            this.newLocation = {} as V1alpha1Location
+          }
+        });
+      },
+      // addLabels add empty line to labels UI for more labels
+      addLabel(labels: any) {
+        labels.push({key: "", value: ""})
+      },
+      // deleteLabel deletes label from labels UI
+      deleteLabel(obj: any, index: number) {
+        obj.splice(index, 1)
+      },
+      handleChangeTag(tags: any) {
+        this.availableSelectorLabels.values = tags
+      },
+    },
+
+  })
+
+  </script>
+  <style>
+    .modal {
+      transition: opacity 0.25s ease;
+    }
+
+  </style>

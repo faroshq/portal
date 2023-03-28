@@ -7,13 +7,14 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import { defineComponent } from 'vue';
-import idsrvAuth from '../oauthclient/idsrvAuth'
+import { store } from "@/store";
+
 
 export default defineComponent({
   name: "LogOut",
   mounted () {
+    store.dispatch("oidcStore/removeOidcUser");
     const router = useRouter();
-    idsrvAuth.signOut();
     router.push("/");
   }
 })

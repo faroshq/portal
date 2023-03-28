@@ -2,7 +2,7 @@
 <div class="inline px-6 py-2 mt-3">
 
     <button
-      @click="this.open = true"
+      @click="open = true"
       class="px-6 py-2 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
     >
       Create organization
@@ -10,11 +10,11 @@
 
     <div
       :class="`modal ${
-        !this.open && 'opacity-0 pointer-events-none'
+        !open && 'opacity-0 pointer-events-none'
       } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`"
     >
       <div
-        @click="this.open = false"
+        @click="open = false"
         class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay"
       ></div>
 
@@ -43,7 +43,7 @@
           <!--Title-->
           <div class="flex items-center justify-between pb-3">
             <p class="text-2xl font-bold">Organizations</p>
-            <div class="z-50 cursor-pointer modal-close" @click="this.open = false">
+            <div class="z-50 cursor-pointer modal-close" @click="open = false">
               <svg
                 class="text-black fill-current"
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,37 +65,36 @@
           </p>
 
           <form
-            :obj="this.organizationForm"
+            :obj="organizationForm"
             >
               <label class="text-xs">Name</label>
 
               <div class="relative mt-2 rounded-md shadow-sm">
                 <input
                   type="text"
-                  v-model="this.organizationForm.name"
+                  v-model="organizationForm.name"
                   class="w-full px-12 py-2 border-transparent rounded-md appearance-none focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 />
 
             </div>
           </form>
 
-            <div>
-              <div v-if=this.error class="text-red-500">
-                {{ this.error.message }}
-              </div>
+          <div>
+            <div v-if=error class="text-red-500">
+              {{ error.message }}
             </div>
-
+          </div>
 
           <!--Footer-->
           <div class="flex justify-end pt-2">
             <button
-              @click="this.open = false"
+              @click="open = false"
               class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
             >
               Close
             </button>
             <button
-             @click="this.onSubmitOrganization"
+             @click="onSubmitOrganization"
               class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
             >
               Create
@@ -154,8 +153,6 @@ export default defineComponent({
           this.setNotification("Organization "+org.metadata?.name+" created successfully")
           this.open = false;
           this.organizationForm.name = "";
-        } else {
-          console.log(this.error);
         }
       })
     },

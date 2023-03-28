@@ -1,10 +1,11 @@
-import idsrvAuth from '../oauthclient/idsrvAuth';
 import * as faros from "@/api/faros";
+import { store } from "@/store";
+
 
 const authConfigFaros: faros.AuthMethodsConfiguration = {
     default: {
       applySecurityAuthentication: (context: faros.RequestContext) => {
-        context.setHeaderParam("Authorization", "Bearer " + idsrvAuth.accessToken);
+          context.setHeaderParam("Authorization", "Bearer " + store.state.oidcStore.access_token);
       },
       getName: () => "default"
     },

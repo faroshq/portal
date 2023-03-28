@@ -42,7 +42,7 @@ export class PromiseDefaultApi {
 
     /**
      * Create organization
-     * @param body 
+     * @param body
      */
     public createOrganization(body: V1alpha1Organization, _options?: Configuration): Promise<V1alpha1Organization> {
         const result = this.api.createOrganization(body, _options);
@@ -52,7 +52,7 @@ export class PromiseDefaultApi {
     /**
      * Create workspace
      * @param organization Name of an organization
-     * @param body 
+     * @param body
      */
     public createWorkspace(organization: string, body: V1alpha1Workspace, _options?: Configuration): Promise<V1alpha1Organization> {
         const result = this.api.createWorkspace(organization, body, _options);

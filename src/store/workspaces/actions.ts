@@ -1,4 +1,5 @@
 import * as types from "./types";
+import { store } from "../index";
 import { Commit } from 'vuex';
 import {
   createWorkspace,
@@ -6,7 +7,7 @@ import {
   getWorkspaces,
 } from "@/services/workspacesService";
 
-import { V1alpha1OrganizationList, V1alpha1Workspace } from "@/api/faros";
+import {  V1alpha1Workspace, V1alpha1Organization } from "@/api/faros";
 
 export function addWorkspaceAction({ commit }: { commit: Commit}, workspace: V1alpha1Workspace) {
   commit(types.LOADING_WORKSPACE, true);
@@ -14,17 +15,16 @@ export function addWorkspaceAction({ commit }: { commit: Commit}, workspace: V1a
 
   return createWorkspace(orgName, workspace)
     .then((value) => commit(types.ADD_WORKSPACE, value))
-    .catch((e) =>  commit(types.ERROR_WORKSPACE, e.body))
+    .catch((e) => commit(types.ERROR_WORKSPACE, e))
     .finally(() => commit(types.LOADING_WORKSPACE, false));
 }
 
 export function deleteWorkspaceAction({ commit }: { commit: Commit}, workspace: V1alpha1Workspace) {
   commit(types.LOADING_WORKSPACE, true);
   const orgName = workspace.spec?.organizationRef?.name as string;
-
   return deleteWorkspace(orgName, workspace)
     .then(() => commit(types.REMOVE_WORKSPACE, workspace))
-    .catch((e) =>  commit(types.ERROR_WORKSPACE, e.body))
+    .catch((e) => commit(types.ERROR_WORKSPACE, e))
     .finally(() => commit(types.LOADING_WORKSPACE, false));
 }
 
@@ -33,30 +33,21 @@ export function getWorkspacesAction({ commit }: { commit: Commit}, orgName: stri
 
   return getWorkspaces(orgName)
     .then((value) => commit(types.SET_WORKSPACES, value))
-    .catch((e) =>  commit(types.ERROR_WORKSPACE, e.body))
-    .finally(() => commit(types.LOADING_WORKSPACE, false));
+    .catch((e) => commit(types.ERROR_WORKSPACE, e))
+    .finally(() => {
+      commit(types.LOADING_WORKSPACE, false);
+      commit(types.SET_STARTED_WORKSPACE, true);
+    })
 }
 
-export function getOrganizationListWorkspaces({ commit }: { commit: Commit}, organizations: V1alpha1OrganizationList) {
-  commit(types.LOADING_WORKSPACE, true);
-
-  for (const org of organizations.items) {
-    getWorkspaces(org.metadata?.name as string).
-    then((value) => commit(types.SET_WORKSPACES, value)).
-    catch((e) =>  commit(types.ERROR_WORKSPACE, e.body))
-  }
-  commit(types.LOADING_WORKSPACE, false)
+export function useWorkspaceActions({ commit }: { commit: Commit}, workspace: V1alpha1Workspace) {
+  commit(types.SET_DEFAULT_WORKSPACE, workspace);
+  store.dispatch("locationModule/listAllLocations", workspace);
+  store.dispatch("synctargetModule/listAllSyncTargets", workspace);
 }
 
-//export function useOrganizationActions({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
-//  commit(types.SET_ORGANIZATION, organization);
-//}
-
-//export function getDefaultOrgWorkspacesAction({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
-//  commit(types.LOADING_ORGANIZATION, true);
-//
-//  return getWorkspaces(organization.metadata?.name as string).
-//    then((value) => commit(types.SET_WORKSPACES, value))
-//    .catch((e) =>  commit(types.ERROR_ORGANIZATION, e.body))
-//    .finally(() => commit(types.LOADING_ORGANIZATION, false));
-//}
+// startupWorkspaceLoad is called when the application starts up. It will load all the workspaces for all the organizations
+export function loadAllWorkspaces({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
+    commit(types.LOADING_WORKSPACE, true);
+    return getWorkspacesAction({commit}, organization.metadata?.name)
+}
