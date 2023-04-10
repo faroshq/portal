@@ -1,0 +1,14 @@
+{
+    "FAROS_API": "https://faros.dev.faros.sh",
+    "MAX_AGE": 3570,
+    "AUTHORITY": "https://dex.dev.faros.sh",
+    "CLIENT_ID": "faros",
+    "CLIENT_SECRET":"ZXhhbXBsZS1hcHAtc2VjcmV0",
+    "REDIRECT_URI": "http://localhost:8080/oidc-callback",
+    "POPUP_REDIRECT_URI": "http://localhost:8080/oidc-popup-callback",
+    "RESPONSE_TYPE": "code",
+    "SCOPE": "openid email",
+    "AUTOMATIC_SILENCE_RENEW": true,
+    "AUTOMATIC_SILENCE_SIGNIN": false,
+    "SILENT_REDIRECT_URI": "http://localhost:8080/silent-renew-oidc.html"
+}

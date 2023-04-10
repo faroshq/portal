@@ -1,8 +1,6 @@
 import { V1alpha1Workspace } from "@/api/faros";
 import * as k8sfaros from "@/api/k8s/config";
-import { useOidcStore } from "vue3-oidc";
-
-const { state } = useOidcStore();
+import { store } from "@/store";
 
 export function getKubeConfig(workspace: V1alpha1Workspace) {
     const kc = new k8sfaros.KubeConfig();
@@ -15,7 +13,7 @@ export function getKubeConfig(workspace: V1alpha1Workspace) {
 
         const user = {
             name: name,
-            token: state?.value.token,
+            token:store.state.oidcStore.access_token,
         };
 
         const context = {

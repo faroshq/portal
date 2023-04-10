@@ -44,6 +44,6 @@ export function useOrganizationActions({ commit }: { commit: Commit}, organizati
   store.dispatch("workspaceModule/loadAllWorkspaces", organization);
  }
 
- export function setStartedAction({ commit }: { commit: Commit}, started: boolean) {
+export function setStartedAction({ commit }: { commit: Commit}, started: boolean) {
   commit(types.SET_STARTED_ORGANIZATION, started);
- }
+}

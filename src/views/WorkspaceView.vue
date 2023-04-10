@@ -2,7 +2,7 @@
   <!-- Breadcrumb -->
   <Breadcrumb breadcrumb="TODO" />
     <div v-if=loaded>
-      <div class="grid grid-cols-2 gap-0">
+      <div class="grid grid-cols-3 gap-0">
         <div>
           <KubeConfig :workspace="getWorkspace()" />
         </div>
@@ -21,8 +21,6 @@
 import Breadcrumb from '../partials/Breadcrumb.vue'
 import KubeConfig from '../partials/kubeconfig/KubeConfig.vue'
 import DeleteWorkspace from '../partials/orgs/DeleteWorkspace.vue'
-//import CreateWorkspace from '../partials/orgs/CreateWorkspace.vue'
-//import CreateLocation from "../partials/orgs/CreateLocation.vue_";
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 
@@ -33,8 +31,6 @@ export default defineComponent({
     Breadcrumb,
     KubeConfig,
     DeleteWorkspace,
-   // CreateWorkspace,
-    //CreateLocation,
   },
 
   data() {

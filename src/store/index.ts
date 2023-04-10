@@ -1,13 +1,14 @@
 import { createStore, createLogger } from "vuex";
 
 import { vuexOidcCreateStoreModule } from 'vuex-oidc'
-import { oidcSettings } from '../config/oidc'
+import { getOIDCSettings } from '../config/config'
 
 import organizationModule from "./organizations";
 import notificationModule from "./notifications";
 import workspaceModule from "./workspaces";
 import locationModule from "./locations";
 import synctargetModule from "./synctargets";
+import placementModule from "./placements";
 
 export const store = createStore({
   modules: {
@@ -16,9 +17,10 @@ export const store = createStore({
     workspaceModule,
     locationModule,
     synctargetModule,
+    placementModule,
     // oidc integration
     oidcStore: vuexOidcCreateStoreModule(
-      oidcSettings,
+      getOIDCSettings(),
       {
         namespaced: true,
         dispatchEventsOnWindow: true

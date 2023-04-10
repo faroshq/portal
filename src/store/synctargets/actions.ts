@@ -50,5 +50,12 @@ export function listSyncTargetsBootstrapConfigsActions({ commit }: { commit: Com
   return listSyncTargetsBootstrapConfigs(workspace).
     then((value: V1ConfigMapList) => commit(types.SET_SYNCTARGETS_BOOTSTRAP_CONFIGS, value)).
     catch((e: any) => commit(types.ERROR_SYNCTARGET, e)).
-    finally(() => commit(types.LOADING_SYNCTARGETS, false));
+    finally(() => {
+      commit(types.LOADING_SYNCTARGETS, false)
+      commit(types.SET_STARTED_SYNCTARGETS, true)
+    });
+}
+
+export function setStartedAction({ commit }: { commit: Commit}, started: boolean) {
+  commit(types.SET_STARTED_SYNCTARGETS, started);
 }

@@ -44,10 +44,15 @@ export function useWorkspaceActions({ commit }: { commit: Commit}, workspace: V1
   commit(types.SET_DEFAULT_WORKSPACE, workspace);
   store.dispatch("locationModule/listAllLocations", workspace);
   store.dispatch("synctargetModule/listAllSyncTargets", workspace);
+  store.dispatch("placementModule/listAllPlacements", workspace);
 }
 
 // startupWorkspaceLoad is called when the application starts up. It will load all the workspaces for all the organizations
 export function loadAllWorkspaces({ commit }: { commit: Commit}, organization: V1alpha1Organization) {
     commit(types.LOADING_WORKSPACE, true);
     return getWorkspacesAction({commit}, organization.metadata?.name)
+}
+
+export function setStartedAction({ commit }: { commit: Commit}, started: boolean) {
+  commit(types.SET_STARTED_WORKSPACE, started);
 }

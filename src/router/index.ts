@@ -6,6 +6,7 @@ import NotFound from "../views/NotFound.vue";
 import WorkspaceView from "../views/WorkspaceView.vue";
 import LocationsView from "../views/LocationsView.vue";
 import SyncTargetView from "../views/SyncTargetView.vue";
+import PlacementsView from "../views/PlacementsView.vue";
 import OidcCallback from "../views/OidcCallback.vue";
 import OidcPopupCallback from "../views/OidcPopupCallback.vue";
 import OidcCallbackError from "../views/OidcCallbackError.vue";
@@ -39,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/organizations/:organization/workspaces/:workspace/locations",
     name: "LocationsView",
     component: LocationsView,
+  },
+  {
+    path: "/organizations/:organization/workspaces/:workspace/placements",
+    name: "PlacementsView",
+    component: PlacementsView,
   },
   {
     path: "/organizations/:organization/workspaces/:workspace/synctargets",

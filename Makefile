@@ -28,6 +28,6 @@ build-image:
 	docker build -t quay.io/faroshq/portal:latest .
 
 run-image:
-	docker run -it -p 18080:80 --rm quay.io/faroshq/portal:latest
+	docker run -it -e VUE_APP_OIDC_CONFIG='${VUE_APP_OIDC_CONFIG}' -p 18080:80 --rm quay.io/faroshq/portal:latest
 
 

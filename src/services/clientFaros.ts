@@ -1,6 +1,6 @@
 import * as faros from "@/api/faros";
 import { store } from "@/store";
-
+import { getFarosSettings } from "@/config/config";
 
 const authConfigFaros: faros.AuthMethodsConfiguration = {
     default: {
@@ -12,7 +12,7 @@ const authConfigFaros: faros.AuthMethodsConfiguration = {
 }
 
 // eslint-disable-next-line no-console
-const serverFaros = new faros.ServerConfiguration<{  }>("https://faros.dev.faros.sh", {  })
+const serverFaros = new faros.ServerConfiguration<{  }>(getFarosSettings().farosAPI, {  })
 
 const configurationParametersFaros = {
     baseServer: serverFaros,

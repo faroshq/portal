@@ -106,8 +106,9 @@
         </div>
         <!--- submenu -->
         <div v-if="isOpenWorkspace(w.metadata?.name)"
-          class="flex items-center px-4 py-1 duration-200 inactiveClass"
+          class="flex px-4 py-1 duration-200 inactiveClass"
         >
+        <div class="grid grid-cols-1 gap-0">
 
           <router-link
             class="pl-4 my-2 text-xs font-semibold mb-4 text-gray-400"
@@ -121,6 +122,12 @@
             <span class="mx-4">SyncTargets</span>
           </router-link>
 
+          <router-link
+            class="pl-4 my-2 text-xs font-semibold mb-4 text-gray-400"
+            :to="`/organizations/${defaultOrganization.metadata?.name}/workspaces/${w.metadata?.name}/placements`">
+            <span class="mx-4">Placements</span>
+          </router-link>
+        </div>
         </div>
       </div>
 
@@ -175,6 +182,7 @@ export default defineComponent({
 
   data() {
     return {
+      isOpen: true,
       workspacesOpen: new Map<string, boolean>(),
       useSidebar: useSidebar(),
       activeClass: ref(

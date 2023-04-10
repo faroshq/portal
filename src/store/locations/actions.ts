@@ -33,5 +33,12 @@ export function listAllLocations({ commit }: { commit: Commit}, workspace: V1alp
   return listLocations(workspace).
     then((value: V1alpha1Location) => commit(types.SET_LOCATIONS, value)).
     catch((e: any) => commit(types.ERROR_LOCATION, e)).
-    finally(() => commit(types.LOADING_LOCATIONS, false));
+    finally(() => {
+      commit(types.LOADING_LOCATIONS, false);
+      commit(types.SET_STARTED_LOCATIONS, true);
+    });
+}
+
+export function setStartedAction({ commit }: { commit: Commit}, started: boolean) {
+  commit(types.SET_STARTED_LOCATIONS, started);
 }
